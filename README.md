@@ -11,42 +11,45 @@ NYSTK
 ## <a id="How_to_use:"></a>How to use:
 * Installation with CocoaPods：`pod 'NYSTK','~>0.0.1'`
 * Manual import：
-    * Drag All files in the `NYSMC` folder to project
+    * Drag All files in the `NYSTK` folder to project
     * Import the main file：`#import <NYSTK/NYSTK.h>`
 
-## <a id="Application_Instance_by_NYSTK:"></a>Application Instance by NYSTK:
-RMOV | CI | CI
------------- | ------------- | -------------
-<img src="https://github.com/niyongsheng/NYSTK/blob/master/toy.png?raw=true" width="50" height="50"> | <img src="https://github.com/niyongsheng/NYSTK/blob/master/toy.png?raw=true" width="50" height="50"> | <img src="https://github.com/niyongsheng/NYSTK/blob/master/toy.png?raw=true" width="50" height="50">
-
-## <a id="Category_API:"></a>Category API:
-* [NSString+NTK.h](Frameworks/NYSTK.framework/Headers/NSString+NTK.h)
-* [NSData+NTK.h](Frameworks/NYSTK.framework/Headers/NSData+NTK.h)
-* [NSDate+NTK.h](Frameworks/NYSTK.framework/Headers/NSDate+NTK.h)
-* [NSNumber+NTK.h](Frameworks/NYSTK.framework/Headers/NSNumber+NTK.h)
-* [UIButton+NTK.h](Frameworks/NYSTK.framework/Headers/UIButton+NTK.h)
-* [UIImage+NTK.h](Frameworks/NYSTK.framework/Headers/UIImage+NTK.h)
-* [UIDevice+NTK.h](Frameworks/NYSTK.framework/Headers/UIDevice+NTK.h)
-* [UIView+NTKKeyBoardOffset.h](Frameworks/NYSTK.framework/Headers/UIView+NTKKeyBoardOffset.h)
-* [NSCharacterSet+NTK.h](Frameworks/NYSTK.framework/Headers/NSCharacterSet+NTK.h)
-* [UIBarButtonItem+NTK.h](Frameworks/NYSTK.framework/Headers/UIBarButtonItem+NTK.h)
-* [UIScrollView+NTK.h](Frameworks/NYSTK.framework/Headers/UIScrollView+NTK.h)
-* [UIViewController+NTK.h](Frameworks/NYSTK.framework/Headers/UIViewController+NTK.h)
-* [UINavigationController+NTK.h](Frameworks/NYSTK.framework/Headers/UINavigationController+NTK.h)
+## ScreenShot：
+![image](https://github.com/niyongsheng/niyongsheng.github.io/blob/master/Document/nystkDemo.gif)
 
 ## <a id="Tool_API:"></a>Tool API:
-* // 单例代码
-* [Single.h](Frameworks/NYSTK.framework/Headers/Single.h)
-* // 常用工具类
-* [HelperUtil.h](Frameworks/NYSTK.framework/Headers/HelperUtil.h)
-* // 文件管理\对象缓存
-* [NTKFileManager.h](Frameworks/NYSTK.framework/Headers/NTKFileManager.h)
-* // 本地通知
-* [NTKLocalPushCenter.h](Frameworks/NYSTK.framework/Headers/NTKLocalPushCenter.h)
-* // 自动选择根控制器
-* [NTKChooseRootController.h](Frameworks/NYSTK.framework/Headers/NTKChooseRootController.h)
-* // 自定义中心凸起TabBar
-* [NYSBlugeTabBar.h](Frameworks/NYSTK.framework/Headers/NYSBlugeTabBar.h)
+```objc
+[NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
+                                                    type:NYSTKColorfulToastTypeBlueFlower
+                                               direction:NYSTKComeInDirectionUp
+                                                  onView:self.view
+                                              themeModel:self.tintModel];
+
+[NYSTKAlert showSignAlertWithMessage:attrStr
+                                              onView:self.view
+                                            signType:NYSTKSignTypeYellow
+                                         emitterType:NYSTKEmitterAnimationTypeColourbar
+                                          themeModel:self.tintModel
+                              infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
+
+[NYSTKAlert showAlertWithTitle:@"查看优惠券"
+                                       message:[[NSAttributedString alloc] initWithString:@"激活码：MVBCQ-B3VPW-CT369"]
+                                          time:@"有效期:2020-09-07"
+                                  infoBtnTitle:@"确定"
+                                        onView:self.view
+                                          type:NYSTKAlertTypeDefault
+                                   emitterType:NYSTKEmitterAnimationTypeColourbar
+                                    themeModel:self.tintModel
+                        infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];                                                              
+```
 
 <!--
 * Step 1.Add Shell
@@ -60,7 +63,7 @@ RMOV | CI | CI
 -->
 ## Remind
 - [x] ARC
-- [x] iOS >= 8.0
+- [x] iOS >= 10.0
 - [x] iPhone \ iPad screen anyway
 
 ## Contribution
