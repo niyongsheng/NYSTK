@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  NYSTKDemo
+
+  Created by 倪永胜 on 2020/9/7.
+  Copyright © 2020 倪永胜. All rights reserved.
+*/
+
+"NYSTKInfoText" = "查看详情";
+"NYSTKIKnowText" = "好的";
+"NYSTKCancelText" = "取消";

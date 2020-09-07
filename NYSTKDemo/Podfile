@@ -1,0 +1,7 @@
+platform :ios, '10.0'
+inhibit_all_warnings!
+source 'https://github.com/CocoaPods/Specs.git'
+target 'NYSTKDemo' do
+  pod 'ReactiveObjC'
+  pod 'Masonry'
+end
