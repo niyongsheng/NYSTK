@@ -11,8 +11,8 @@ NYSTK
 ## <a id="How_to_use:"></a>How to use:
 * Installation with CocoaPods：`pod 'NYSTK','~>0.0.1'`
 * Manual import：
-    * Drag All files in the `NYSTK` folder to project
-    * Import the main file：`#import <NYSTK/NYSTK.h>`
+* Drag All files in the `NYSTK` folder to project
+* Import the main file：`#import <NYSTK/NYSTK.h>`
 
 ## ScreenShot：
 ![image](https://github.com/niyongsheng/niyongsheng.github.io/blob/master/Document/nystkDemo.gif)
@@ -20,35 +20,35 @@ NYSTK
 ## <a id="Tool_API:"></a>Tool API:
 ```objc
 [NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
-                                                    type:NYSTKColorfulToastTypeBlueFlower
-                                               direction:NYSTKComeInDirectionUp
-                                                  onView:self.view
-                                              themeModel:self.tintModel];
+                                    type:NYSTKColorfulToastTypeBlueFlower
+                               direction:NYSTKComeInDirectionUp
+                                  onView:self.view
+                              themeModel:self.tintModel];
 
 [NYSTKAlert showSignAlertWithMessage:attrStr
-                                              onView:self.view
-                                            signType:NYSTKSignTypeYellow
-                                         emitterType:NYSTKEmitterAnimationTypeColourbar
-                                          themeModel:self.tintModel
-                              infoButtonClickedBlock:^{
-                    
-                } closeButtonClickedBlock:^{
-                    
-                }];
+                              onView:self.view
+                            signType:NYSTKSignTypeYellow
+                         emitterType:NYSTKEmitterAnimationTypeColourbar
+                          themeModel:self.tintModel
+              infoButtonClickedBlock:^{
+
+} closeButtonClickedBlock:^{
+
+}];
 
 [NYSTKAlert showAlertWithTitle:@"查看优惠券"
-                                       message:[[NSAttributedString alloc] initWithString:@"激活码：MVBCQ-B3VPW-CT369"]
-                                          time:@"有效期:2020-09-07"
-                                  infoBtnTitle:@"确定"
-                                        onView:self.view
-                                          type:NYSTKAlertTypeDefault
-                                   emitterType:NYSTKEmitterAnimationTypeColourbar
-                                    themeModel:self.tintModel
-                        infoButtonClickedBlock:^{
-                    
-                } closeButtonClickedBlock:^{
-                    
-                }];                                                              
+                       message:[[NSAttributedString alloc] initWithString:@"激活码：MVBCQ-B3VPW-CT369"]
+                          time:@"有效期:2020-09-07"
+                  infoBtnTitle:@"确定"
+                        onView:self.view
+                          type:NYSTKAlertTypeDefault
+                   emitterType:NYSTKEmitterAnimationTypeColourbar
+                    themeModel:self.tintModel
+                    infoButtonClickedBlock:^{
+
+} closeButtonClickedBlock:^{
+
+}];                                                              
 ```
 
 <!--
