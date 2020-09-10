@@ -2,11 +2,11 @@
 NYSTK
 ===
 [![](https://img.shields.io/badge/platform-iOS-orange.svg)](https://developer.apple.com/ios/)
-[![](http://img.shields.io/travis/CocoaPods/CocoaPods/master.svg?style=flat)](https://travis-ci.org/CocoaPods/NYSMC)
+[![](http://img.shields.io/travis/CocoaPods/CocoaPods/master.svg?style=flat)](https://travis-ci.org/CocoaPods/NYSTK)
 [![](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/niyongsheng/NYSMC/blob/master/LICENSE)
 ===
-> NYS弹框<br>
-> NYS alert framework
+> NYSTK ios 弹框 <br>
+> NYSTK ios alert framework
 
 ## How to use:
 * Installation with CocoaPods：`pod 'NYSTK','~>0.0.5'`
@@ -123,26 +123,20 @@ NYSTK
     infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
    closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
 ```
+## Example Code:
 
-<!--
 ```objc
-[NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
+// simple toast
+[NYSTKAlert showToastWithMessage:@"NYSTK toast test !" themeModel:self.tintModel];
+
+// colorful toast
+[NYSTKAlert showColorfulToastWithMessage:@"NYSTK colorful toast test ..."
                                     type:NYSTKColorfulToastTypeBlueFlower
                                direction:NYSTKComeInDirectionUp
-                                  onView:self.view
+                                  onView:[UIApplication sharedApplication].delegate.window
                               themeModel:self.tintModel];
 
-[NYSTKAlert showSignAlertWithMessage:attrStr
-                              onView:self.view
-                            signType:NYSTKSignTypeYellow
-                         emitterType:NYSTKEmitterAnimationTypeColourbar
-                          themeModel:self.tintModel
-              infoButtonClickedBlock:^{
-
-} closeButtonClickedBlock:^{
-
-}];
-
+// custom alert
 [NYSTKAlert showAlertWithTitle:@"查看优惠券"
                        message:[[NSAttributedString alloc] initWithString:@"激活码：MVBCQ-B3VPW-CT369"]
                           time:@"有效期:2020-09-07"
@@ -155,9 +149,9 @@ NYSTK
 
 } closeButtonClickedBlock:^{
 
-}];                                                              
+}]; 
 ```
-
+<!--
 
 * Step 1.Add Shell
 ```shell
