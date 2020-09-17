@@ -8,6 +8,7 @@
 
 #import "NYSTKEmitterUtil.h"
 #import "NYSTKConst.h"
+#import "NSBundle+NYSTK.h"
 
 @implementation NYSTKEmitterUtil
 
@@ -66,7 +67,7 @@
         colourBarflake.yAcceleration = 100;
         colourBarflake.emissionRange = M_PI; // some variation in angle
         colourBarflake.spinRange     = M_PI; // slow spin
-        colourBarflake.contents      = (id)[[UIImage imageNamed:[NSString stringWithFormat:@"colourbar_%d",i]] CGImage];
+        colourBarflake.contents      = (id)[[NSBundle nystk_imageForKey:[NSString stringWithFormat:@"colourbar_%d",i]] CGImage];
         [cellArr addObject:colourBarflake];
     }
     colourBarEmitter.shadowOpacity = 1.0;
@@ -115,7 +116,7 @@
     snowflake.emissionRange = 0.5 * M_PI;
     // 子旋转角度范围
     snowflake.spinRange = 0.25 * M_PI;
-    snowflake.contents = (id)[[UIImage imageNamed:@"snow"] CGImage];
+    snowflake.contents = (id)[[NSBundle nystk_imageForKey:@"snow"] CGImage];
     // 设置雪花形状的粒子的颜色
     snowflake.color = [[UIColor whiteColor] CGColor];
     // 缩放范围
@@ -171,7 +172,7 @@
     rainflake.emissionLatitude = 0.1 *M_PI;
     //    rainflake.emissionLongitude =  M_PI_2; // 方向，M_PI_2 右斜
     
-    rainflake.contents          = (id)[UIImage imageNamed:@"rain"].CGImage;
+    rainflake.contents          = (id)[NSBundle nystk_imageForKey:@"rain"].CGImage;
     rainflake.color             = [UIColor whiteColor].CGColor;
     rainflake.lifetime          = 3;        // 生命周期
     rainflake.scale             = 0.3;      // 缩放
@@ -185,7 +186,7 @@
     //    //rainSpark.emissionRange     = M_PI;//180度
     //    //rainSpark.yAcceleration     = 40;
     //    rainSpark.scale             = 0.5;
-    //    rainSpark.contents          = (id)[UIImage imageNamed:@"snow"].CGImage;
+    //    rainSpark.contents          = (id)[NSBundle nystk_imageForKey:@"snow"].CGImage;
     //    rainSpark.color=[UIColor whiteColor].CGColor;
     //    rainSpark.lifetime          =  0.3;
     
@@ -201,7 +202,7 @@
     spark.yAcceleration         = 40;           // 重力
     spark.lifetime              = 0.5;
     
-    spark.contents              = (id) [[UIImage imageNamed:@"snow"] CGImage];
+    spark.contents              = (id) [[NSBundle nystk_imageForKey:@"snow"] CGImage];
     spark.scaleSpeed            = 0.2;
     spark.scale                 = 0.2;
     spark.color                 = [UIColor whiteColor].CGColor;
@@ -241,7 +242,7 @@
     rocket.velocityRange    = 75;
     rocket.lifetime         = 1.02;
     
-    rocket.contents         = (id)[UIImage imageNamed:@"fireworks"].CGImage;
+    rocket.contents         = (id)[NSBundle nystk_imageForKey:@"fireworks"].CGImage;
     rocket.scale            = 0.5;
     rocket.scaleRange       = 0.5;
     rocket.color            = [UIColor redColor].CGColor;
@@ -272,7 +273,7 @@
     spark.yAcceleration     = 40;           // 重力
     spark.lifetime          = 3;
     
-    spark.contents          = (id) [[UIImage imageNamed:@"snow"] CGImage];
+    spark.contents          = (id) [[NSBundle nystk_imageForKey:@"snow"] CGImage];
     spark.scaleSpeed        =- 0.2;
     
     spark.greenSpeed        =- 0.1;

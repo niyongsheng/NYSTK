@@ -5,11 +5,11 @@ NYSTK
 [![](http://img.shields.io/travis/CocoaPods/CocoaPods/master.svg?style=flat)](https://travis-ci.org/CocoaPods/NYSTK)
 [![](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/niyongsheng/NYSMC/blob/master/LICENSE)
 ===
-> NYSTK ios 弹框 <br>
-> NYSTK ios alert framework
+> ios 炫彩弹框 <br>
+> ios colorful alert framework
 
 ## How to use:
-* Installation with CocoaPods：`pod 'NYSTK','~>0.0.5'`
+* Installation with CocoaPods：`pod 'NYSTK','~>0.0.6'`
 * Import the main file：`#import <NYSTK/NYSTK.h>`
 <br><hr>
 * Manual import：Drag [`NYSTK`](https://github.com/niyongsheng/NYSTK/tree/master/NYSTK) folder to project

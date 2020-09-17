@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'NYSTK'
-  s.version          = '0.0.5'
+  s.version          = '0.0.6'
   s.platform         = :ios, '10.0'
   s.summary          = 'ios alert framework.'
   s.homepage         = 'https://github.com/niyongsheng/NYSTK'
