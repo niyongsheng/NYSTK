@@ -8,18 +8,18 @@ NYSTK
 > ios 炫彩弹框 <br>
 > ios colorful alert framework
 
-## How to use:
+## Usage:
 * Installation with CocoaPods：`pod 'NYSTK','~>0.0.6'`
 * Import the main file：`#import <NYSTK/NYSTK.h>`
 <br><hr>
 * Manual import：Drag [`NYSTK`](https://github.com/niyongsheng/NYSTK/tree/master/NYSTK) folder to project
 * Import the main file：`#import "NYSTK.h"`
 
-## ScreenShot：
+## Screenshot：
 ![image](https://github.com/niyongsheng/niyongsheng.github.io/blob/master/Document/nystk_demo_1.gif)
 ![image](https://github.com/niyongsheng/niyongsheng.github.io/blob/master/Document/nystk_demo_2.gif)
 
-## Framework API:
+## APIs:
 
 ```objc
 #pragma mark - Toast
@@ -123,7 +123,7 @@ NYSTK
     infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
    closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
 ```
-## Example Code:
+## Instance:
 
 ```objc
 // simple toast
