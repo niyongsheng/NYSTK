@@ -14,7 +14,7 @@
 #import <SafariServices/SafariServices.h>
 
 #define NAVBAR_COLORCHANGE_POINT (IMAGE_HEIGHT - NAV_HEIGHT*2)
-#define IMAGE_HEIGHT 300
+#define IMAGE_HEIGHT 400
 #define NAV_HEIGHT 64
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -51,7 +51,7 @@
     [self.topView addSubview:self.nameLabel];
     self.nameLabel.frame = CGRectMake(0, self.imgView.frame.size.height + self.imgView.frame.origin.y + 10, self.view.frame.size.width, 25);
     [self.topView addSubview:self.segmentedControl];
-    self.segmentedControl.center = CGPointMake(self.topView.center.x, self.nameLabel.center.y + 40);
+    self.segmentedControl.center = CGPointMake(self.topView.center.x, self.nameLabel.center.y + 60);
     self.tableView.tableHeaderView = self.topView;
 }
 
@@ -89,6 +89,7 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     cell.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.imageView.image = [UIImage imageNamed:@"logo"];
     
     Model *model = self.dataSource[indexPath.section];
@@ -110,15 +111,28 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    DemoViewController *demoVC = DemoViewController.new;
-    demoVC.indexPath = indexPath;
-    demoVC.tintModel = self.segmentedControl.selectedSegmentIndex;
-    demoVC.title = [self.dataSource[indexPath.section] detailTitles][indexPath.row];
-    
-    demoVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [self presentViewController:demoVC animated:YES completion:^{
+    if ([indexPath isEqual:[NSIndexPath indexPathForRow:0 inSection:0]]) {
         
-    }];
+        [NYSTKAlert showToastWithMessage:@"Toast Test !" themeModel:self.segmentedControl.selectedSegmentIndex];
+        
+    } else if ([indexPath isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
+        
+        [NYSTKAlert showToastWithMessage:@"Toast Image Test !"
+                                   image:@"logo"
+                              themeModel:self.segmentedControl.selectedSegmentIndex];
+        
+    } else {
+        
+        DemoViewController *demoVC = DemoViewController.new;
+        demoVC.indexPath = indexPath;
+        demoVC.tintModel = self.segmentedControl.selectedSegmentIndex;
+        demoVC.title = [self.dataSource[indexPath.section] detailTitles][indexPath.row];
+        
+        demoVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:demoVC animated:YES completion:^{
+            
+        }];
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -157,7 +171,7 @@
         
         Model *model_1 = [Model new];
         model_1.header = @"Colorful Toast Demo";
-        model_1.detailTitles = @[@"NYSTK", @"down", @"left", @"right"];
+        model_1.detailTitles = @[@"default", @"down", @"left", @"right", @"up"];
         
         Model *model_2 = [Model new];
         model_2.header = @"Custom Image Demo";
@@ -225,8 +239,17 @@
 - (UISegmentedControl *)segmentedControl {
     if (!_segmentedControl) {
         _segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Light Model", @"Dark Model"]];
-        _segmentedControl.tintColor = [UIColor lightGrayColor];
-        _segmentedControl.selectedSegmentIndex = 0;
+        _segmentedControl.tintColor = [UIColor colorWithRed:0.13 green:0.49 blue:1.00 alpha:1.00];
+        _segmentedControl.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.35];
+        if (@available(iOS 13.0, *)) {
+            if ([UIApplication sharedApplication].keyWindow.overrideUserInterfaceStyle == UIUserInterfaceStyleDark) {
+                _segmentedControl.selectedSegmentIndex = 1;
+            } else {
+                _segmentedControl.selectedSegmentIndex = 0;
+            }
+        } else {
+            _segmentedControl.selectedSegmentIndex = 0;
+        }
     }
     return _segmentedControl;
 }

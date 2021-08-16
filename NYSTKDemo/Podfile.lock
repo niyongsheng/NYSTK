@@ -1,20 +1,36 @@
 PODS:
+  - FFPopup (1.1.5)
   - Masonry (1.1.0)
+  - NYSTK (0.0.6):
+    - Masonry (>= 1.0.0)
+    - ReactiveObjC (>= 1.0.1)
   - ReactiveObjC (3.1.1)
+  - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
+  - FFPopup
   - Masonry
-  - ReactiveObjC
+  - NYSTK (from `../../NYSTK`)
+  - SVProgressHUD
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - FFPopup
     - Masonry
     - ReactiveObjC
+    - SVProgressHUD
+
+EXTERNAL SOURCES:
+  NYSTK:
+    :path: "../../NYSTK"
 
 SPEC CHECKSUMS:
+  FFPopup: a208dcee8db3e54ec4a88fcd6481f6f5d85b7a83
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  NYSTK: f12ac9e3fea7ccf8db2efbb628d1f7b20f9a9565
   ReactiveObjC: 011caa393aa0383245f2dcf9bf02e86b80b36040
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 336e573d1913a3725dc51fca2a058fbde07c7346
+PODFILE CHECKSUM: ac62b727a1210389cd0af3e9dd7386aa95fedc9f
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.0

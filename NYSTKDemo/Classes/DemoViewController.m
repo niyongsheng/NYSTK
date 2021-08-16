@@ -46,26 +46,13 @@
 
 - (void)showAlert {
     if (self.indexPath.section == 0) {
-        switch (self.indexPath.row) {
-            case 0: {
-                [NYSTKAlert showToastWithMessage:@"Toast Test !" themeModel:self.tintModel];
-            }
-                break;
-                
-            case 1: {
-                [NYSTKAlert showToastWithMessage:@"Toast Image Test !" image:@"logo" themeModel:self.tintModel];
-            }
-                break;
-                
-            default:
-                break;
-        }
+        
     } else if (self.indexPath.section == 1) {
         switch (self.indexPath.row) {
             case 0: {
                 [NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
                                                     type:NYSTKColorfulToastTypeBlueFlower
-                                               direction:NYSTKComeInDirectionUp
+                                               direction:NYSTKComeInDirectionDefault
                                                   onView:self.view
                                               themeModel:self.tintModel];
             }
@@ -73,7 +60,7 @@
                 
             case 1: {
                 [NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
-                      type:NYSTKColorfulToastTypeBlueHand
+                      type:NYSTKColorfulToastTypeYellowCat
                  direction:NYSTKComeInDirectionDown
                     onView:self.view
                 themeModel:self.tintModel];
@@ -93,6 +80,15 @@
                 [NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
                       type:NYSTKColorfulToastTypeYellowCat
                  direction:NYSTKComeInDirectionRight
+                    onView:self.view
+                themeModel:self.tintModel];
+            }
+                break;
+                
+            case 4: {
+                [NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
+                      type:NYSTKColorfulToastTypeBlueHand
+                 direction:NYSTKComeInDirectionUp
                     onView:self.view
                 themeModel:self.tintModel];
             }

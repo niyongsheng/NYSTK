@@ -21,95 +21,112 @@
 
 @implementation NYSTKAlert
 
++ (void)setDefaultValue {
+    [NYSTKConfig defaultConfig].contentFont = [NYSTKConfig defaultConfig].contentFont ? [NYSTKConfig defaultConfig].contentFont : [UIFont systemFontOfSize:15];
+    [NYSTKConfig defaultConfig].contentTextColor = [NYSTKConfig defaultConfig].contentTextColor ? [NYSTKConfig defaultConfig].contentTextColor : [UIColor whiteColor];
+    [NYSTKConfig defaultConfig].contentBgCornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius == 0 ? 7.0f : [NYSTKConfig defaultConfig].contentBgCornerRadius;
+    
+    [NYSTKConfig defaultConfig].autoDismissDuration = [NYSTKConfig defaultConfig].autoDismissDuration == 0 ? 3.0f : [NYSTKConfig defaultConfig].autoDismissDuration;
+
+}
+
++ (void)clearDefaultValue {
+    [NYSTKConfig defaultConfig].contentFont = nil;
+    [NYSTKConfig defaultConfig].contentTextColor = nil;
+    [NYSTKConfig defaultConfig].contentBgCornerRadius = 0;
+    
+    [NYSTKConfig defaultConfig].autoDismissDuration = 0;
+    [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 0);
+}
+
 #pragma mark - 纯文本toast提示
 
 /** 纯文本toast提示 */
-+ (void)showToastWithMessage:(NSString *)message themeModel:(NYSTKThemeModel)theme {
++ (void)showToastWithMessage:(NSString * _Nonnull)message {
+    if (@available(iOS 13.0, *)) {
+        [self showToastWithMessage:message themeModel:NYSTKThemeModelAuto];
+    } else {
+        [self showToastWithMessage:message themeModel:NYSTKThemeModelDark];
+    }
+}
+
+/** 纯文本toast提示 */
++ (void)showToastWithMessage:(NSString * _Nonnull)message themeModel:(NYSTKThemeModel)theme {
+    [self showToastWithMessage:message
+                         image:nil
+                          view:[[[UIApplication sharedApplication] delegate] window]
+                    themeModel:theme];
+}
+
+/** 图文toast提示 */
++ (void)showToastWithMessage:(NSString * _Nonnull)message image:(NSString * _Nonnull)imageName themeModel:(NYSTKThemeModel)theme {
+    [self showToastWithMessage:message
+                         image:imageName
+                          view:[[[UIApplication sharedApplication] delegate] window]
+                    themeModel:theme];
+}
+
+/** 图文toast提示 */
++ (void)showToastWithMessage:(NSString * _Nonnull)message image:(NSString *)imageName view:(UIView * _Nonnull)view themeModel:(NYSTKThemeModel)theme {
+    [self setDefaultValue];
     
     // bg view
     UIView *bgView = [[UIView alloc] init];
     [[[[UIApplication sharedApplication] delegate] window] addSubview:bgView];
-    bgView.backgroundColor = (theme == NYSTKThemeModelLight) ? [[UIColor grayColor] colorWithAlphaComponent:0.85f] : [[UIColor blackColor] colorWithAlphaComponent:NYSTKBackgroundAlpha];
-    bgView.layer.cornerRadius = NYSTKBackgroundCornerRadius;
+    bgView.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius;
+    if (@available(iOS 13.0, *) && theme == NYSTKThemeModelAuto) {
+        if ([UIApplication sharedApplication].keyWindow.overrideUserInterfaceStyle == UIUserInterfaceStyleDark) {
+            theme = NYSTKThemeModelDark;
+        } else {
+            theme = NYSTKThemeModelLight;
+        }
+    }
+    bgView.backgroundColor = (theme == NYSTKThemeModelLight) ? [[UIColor lightGrayColor] colorWithAlphaComponent:NYSTKBackgroundAlpha] : [[UIColor blackColor] colorWithAlphaComponent:NYSTKBackgroundAlpha];
+    
+    // image
+    UIImage *image = [UIImage imageNamed:imageName];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    [bgView addSubview:imageView];
     
     // label
     UILabel *label = [[UILabel alloc] init];
     label.text = message;
     [bgView addSubview:label];
-    label.textColor = [UIColor whiteColor];
     label.numberOfLines = 0;
     label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont boldSystemFontOfSize:15];
+    label.font = [NYSTKConfig defaultConfig].contentFont;
+    label.textColor = [NYSTKConfig defaultConfig].contentTextColor;
     
     // 设置背景view的约束
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(bgView.superview.mas_centerX);
-        make.centerY.mas_equalTo(bgView.superview.mas_bottom).mas_offset(-50);
-        make.top.left.mas_equalTo(label).mas_offset(-20);
-        make.bottom.right.mas_equalTo(label).mas_offset(20);
-    }];
-    
-    // 设置label的约束
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_lessThanOrEqualTo(150);
-        make.center.mas_equalTo(label.superview);
-    }];
-    
-    // 自动移除toast
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NYSTKAutoDismissDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:0.5 animations:^{
-            bgView.alpha = 0;
-        } completion:^(BOOL finished) {
-            [bgView removeFromSuperview];
-        }];
-    });
-}
-
-/** 图文toast提示 */
-+ (void)showToastWithMessage:(NSString *)message image:(NSString *)imageName themeModel:(NYSTKThemeModel)theme {
-    
-    // bg view
-    UIView *bgView = [[UIView alloc] init];
-    [[[[UIApplication sharedApplication] delegate] window] addSubview:bgView];
-    bgView.backgroundColor = (theme == NYSTKThemeModelLight) ? [[UIColor grayColor] colorWithAlphaComponent:0.7f] : [[UIColor blackColor] colorWithAlphaComponent:NYSTKBackgroundAlpha];
-    bgView.layer.cornerRadius = NYSTKBackgroundCornerRadius;
-    
-    // image
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
-    [bgView addSubview:imageView];
-    
-    // label
-    UILabel *label = [[UILabel alloc]init];
-    label.text = message;
-    [bgView addSubview:label];
-    label.textColor = [UIColor whiteColor];
-    label.numberOfLines = 0;
-    label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont boldSystemFontOfSize:22];
-    
-    // 设置背景view的约束
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.mas_equalTo(bgView.superview);
-        make.width.mas_equalTo(150);
+        make.centerX.mas_equalTo(bgView.superview.mas_centerX).mas_offset([NYSTKConfig defaultConfig].offsetFromCenter.horizontal);
+        make.centerY.mas_equalTo(bgView.superview.mas_centerY).mas_offset([NYSTKConfig defaultConfig].offsetFromCenter.vertical);
+        make.width.mas_lessThanOrEqualTo(NYSTK_ScreenWidth*0.75);
+        
+        make.top.mas_equalTo(imageView.mas_top).mas_offset(-10);
+        make.bottom.mas_equalTo(label.mas_bottom).mas_offset(10);
+        make.left.mas_equalTo(label).mas_offset(-10);
+        make.right.mas_equalTo(label).mas_offset(10);
     }];
     
     // 设置imageView的约束
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(bgView);
-        make.top.mas_equalTo(20);
-        make.size.mas_equalTo(CGSizeMake(37, 37));
+        make.top.mas_equalTo(imageName ? 10 : 0);
+        make.size.mas_equalTo(imageName ? CGSizeMake(image.size.width, image.size.height) : CGSizeZero);
     }];
     
     // 设置label的约束
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_lessThanOrEqualTo(130);
+        make.left.mas_equalTo(bgView.mas_left).mas_offset(10);
+        make.right.mas_equalTo(bgView.mas_right).mas_offset(-10);
         make.centerX.mas_equalTo(label.superview);
-        make.top.mas_equalTo(imageView.mas_bottom).mas_offset(20);
-        make.bottom.mas_offset(-18);
+        make.top.mas_equalTo(imageView.mas_bottom).mas_offset(10);
+        make.bottom.mas_offset(-10);
     }];
     
     // 自动移除toast
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NYSTKAutoDismissDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)([NYSTKConfig defaultConfig].autoDismissDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:0.5 animations:^{
             bgView.alpha = 0;
         } completion:^(BOOL finished) {
@@ -131,7 +148,7 @@
                           themeModel:(NYSTKThemeModel)theme {
     // bg view
     UIImageView *bgImageView = [[UIImageView alloc] init];
-    bgImageView.layer.cornerRadius = 10.0f;
+    bgImageView.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius;
     bgImageView.layer.masksToBounds = YES;
     switch (type) {
         case NYSTKColorfulToastTypeGreenBook:
@@ -167,14 +184,38 @@
     UILabel *label = [[UILabel alloc] init];
     label.text = message;
     [bgImageView addSubview:label];
-    label.textColor = [UIColor whiteColor];
     label.numberOfLines = 0;
-    label.textAlignment = NSTextAlignmentLeft;
-    label.font = [UIFont boldSystemFontOfSize:15];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [NYSTKConfig defaultConfig].contentFont;
+    label.textColor = [NYSTKConfig defaultConfig].contentTextColor;
+    
+    // 关闭按钮
+    UIButton *cancelButton = [[UIButton alloc] init];
+    [bgImageView addSubview:cancelButton];
+    [cancelButton setBackgroundImage:[NSBundle nystk_imageForKey:@"sign_out"] forState:UIControlStateNormal];
+//    [[cancelButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+//        closeButtonClickedBlock();
+//        [bgImageView removeFromSuperview];
+//    }];
+    [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(bgImageView.mas_right).mas_offset(-10);
+        make.centerY.mas_equalTo(bgImageView);
+        make.size.mas_equalTo(CGSizeMake(25, 25));
+    }];
     
     // 设置背景view的约束
     [bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_lessThanOrEqualTo(NYSTK_ScreenWidth * 0.75);
+        make.height.mas_lessThanOrEqualTo(NYSTK_RealValue(70));
+        
         switch (direction) {
+            case NYSTKComeInDirectionDefault: {
+                make.size.mas_equalTo(CGSizeZero);
+                make.centerX.mas_equalTo(bgImageView.superview.mas_centerX);
+                make.centerY.mas_equalTo(bgImageView.superview.mas_centerY);
+            }
+                break;
+                
             case NYSTKComeInDirectionUp: {
                 make.centerX.mas_equalTo(bgImageView.superview.mas_centerX);
                 make.top.mas_equalTo(bgImageView.superview.mas_top).mas_offset(-NYSTK_RealValue(70));
@@ -202,8 +243,6 @@
             default:
                 break;
         }
-        make.width.mas_lessThanOrEqualTo(NYSTK_ScreenWidth * 0.75);
-        make.height.mas_lessThanOrEqualTo(NYSTK_RealValue(70));
     }];
     
     // 设置label的约束
@@ -217,6 +256,11 @@
     
     [bgImageView mas_updateConstraints:^(MASConstraintMaker *make) {
         switch (direction) {
+            case NYSTKComeInDirectionDefault: {
+                make.size.mas_equalTo(CGSizeMake(NYSTK_ScreenWidth * 0.75, NYSTK_RealValue(70)));
+            }
+                break;
+            
             case NYSTKComeInDirectionUp: {
                 make.top.mas_equalTo(bgImageView.superview.mas_top).mas_offset(20);
             }
@@ -229,7 +273,6 @@
                 
             case NYSTKComeInDirectionLeft: {
                 make.right.mas_equalTo(bgImageView.superview.mas_left).mas_offset(NYSTK_ScreenWidth * 0.875);
-//                make.right.mas_equalTo(NYSTK_ScreenWidth * 0.875);
             }
                 break;
                 
@@ -247,7 +290,7 @@
         [bgImageView.superview layoutIfNeeded];
     } completion:^(BOOL finished) {
         // 自动移除toast
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NYSTKAutoDismissDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)([NYSTKConfig defaultConfig].autoDismissDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:1.0f animations:^{
                 bgImageView.alpha = 0;
             } completion:^(BOOL finished) {

@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		C8327B4D2501DC1C00842579 /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8327B4C2501DC1C00842579 /* DemoViewController.m */; };
-		C86D7C8825020FAE00F88707 /* NSBundle+NYSTK.m in Sources */ = {isa = PBXBuildFile; fileRef = C86D7C8725020FAE00F88707 /* NSBundle+NYSTK.m */; };
-		C86D7C8C25021B4C00F88707 /* NYSTKConst.m in Sources */ = {isa = PBXBuildFile; fileRef = C86D7C8B25021B4C00F88707 /* NYSTKConst.m */; };
-		C86D7C8F25021BA300F88707 /* NYSTKConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = C86D7C8E25021BA300F88707 /* NYSTKConfig.m */; };
-		C86D7C9725022B4600F88707 /* NYSTKImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C86D7C9625022B4600F88707 /* NYSTKImageView.m */; };
 		C86D7C9A2502322100F88707 /* placeholder_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C86D7C982502322100F88707 /* placeholder_img@2x.png */; };
 		C86D7C9B2502322100F88707 /* placeholder_img@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C86D7C992502322100F88707 /* placeholder_img@3x.png */; };
 		C86D7C9E2502453000F88707 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = C86D7C9D2502453000F88707 /* Model.m */; };
@@ -81,7 +77,6 @@
 		C89427C225062A0600BFEFAE /* colourbar_6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C8C6484425010140007DF995 /* colourbar_6@2x.png */; };
 		C89427C325062A0600BFEFAE /* colourbar_7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C8C6484525010140007DF995 /* colourbar_7@2x.png */; };
 		C89427C425062A0600BFEFAE /* colourbar_8@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C8C6484625010140007DF995 /* colourbar_8@2x.png */; };
-		C89427C725062AD300BFEFAE /* NYSTK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C89427C625062AD300BFEFAE /* NYSTK.bundle */; };
 		C8C648392500F328007DF995 /* meteor.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C8C648382500F328007DF995 /* meteor.mp4 */; };
 		C8C6484725010140007DF995 /* fireworks.png in Resources */ = {isa = PBXBuildFile; fileRef = C8C6483C25010140007DF995 /* fireworks.png */; };
 		C8C6484825010140007DF995 /* rain.png in Resources */ = {isa = PBXBuildFile; fileRef = C8C6483D25010140007DF995 /* rain.png */; };
@@ -119,9 +114,6 @@
 		C8DA09152500D4FE00B2B904 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8DA09132500D4FE00B2B904 /* LaunchScreen.storyboard */; };
 		C8DA09182500D4FE00B2B904 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DA09172500D4FE00B2B904 /* main.m */; };
 		C8DA09222500D4FE00B2B904 /* NYSTKDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DA09212500D4FE00B2B904 /* NYSTKDemoTests.m */; };
-		C8DA093C2500DC2E00B2B904 /* NYSTKAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DA09372500DC2E00B2B904 /* NYSTKAlert.m */; };
-		C8DA093D2500DC2E00B2B904 /* NYSTKEmitterUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DA09392500DC2E00B2B904 /* NYSTKEmitterUtil.m */; };
-		C8DA09402500E54800B2B904 /* UIColor+NYSTK.m in Sources */ = {isa = PBXBuildFile; fileRef = C8DA093F2500E54800B2B904 /* UIColor+NYSTK.m */; };
 		DE7BF7DFF7DAAF9169199029 /* libPods-NYSTKDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A36849F313B84F6FF77B1227 /* libPods-NYSTKDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -140,13 +132,6 @@
 		A36849F313B84F6FF77B1227 /* libPods-NYSTKDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NYSTKDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8327B4B2501DC1C00842579 /* DemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoViewController.h; sourceTree = "<group>"; };
 		C8327B4C2501DC1C00842579 /* DemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoViewController.m; sourceTree = "<group>"; };
-		C86D7C8625020FAE00F88707 /* NSBundle+NYSTK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBundle+NYSTK.h"; sourceTree = "<group>"; };
-		C86D7C8725020FAE00F88707 /* NSBundle+NYSTK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+NYSTK.m"; sourceTree = "<group>"; };
-		C86D7C8B25021B4C00F88707 /* NYSTKConst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYSTKConst.m; sourceTree = "<group>"; };
-		C86D7C8D25021BA300F88707 /* NYSTKConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYSTKConfig.h; sourceTree = "<group>"; };
-		C86D7C8E25021BA300F88707 /* NYSTKConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYSTKConfig.m; sourceTree = "<group>"; };
-		C86D7C9525022B4600F88707 /* NYSTKImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYSTKImageView.h; sourceTree = "<group>"; };
-		C86D7C9625022B4600F88707 /* NYSTKImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYSTKImageView.m; sourceTree = "<group>"; };
 		C86D7C982502322100F88707 /* placeholder_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder_img@2x.png"; sourceTree = "<group>"; };
 		C86D7C992502322100F88707 /* placeholder_img@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder_img@3x.png"; sourceTree = "<group>"; };
 		C86D7C9C2502453000F88707 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
@@ -172,7 +157,6 @@
 		C89427872506297C00BFEFAE /* group_banner_2_375x80_@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "group_banner_2_375x80_@3x.png"; sourceTree = "<group>"; };
 		C89427882506297C00BFEFAE /* group_banner_3_375x80_@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "group_banner_3_375x80_@3x.png"; sourceTree = "<group>"; };
 		C89427892506297C00BFEFAE /* group_banner_1_375x80_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "group_banner_1_375x80_@2x.png"; sourceTree = "<group>"; };
-		C89427C625062AD300BFEFAE /* NYSTK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NYSTK.bundle; sourceTree = "<group>"; };
 		C8C648382500F328007DF995 /* meteor.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = meteor.mp4; sourceTree = "<group>"; };
 		C8C6483C25010140007DF995 /* fireworks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fireworks.png; sourceTree = "<group>"; };
 		C8C6483D25010140007DF995 /* rain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rain.png; sourceTree = "<group>"; };
@@ -216,14 +200,6 @@
 		C8DA091D2500D4FE00B2B904 /* NYSTKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NYSTKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8DA09212500D4FE00B2B904 /* NYSTKDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYSTKDemoTests.m; sourceTree = "<group>"; };
 		C8DA09232500D4FE00B2B904 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C8DA09362500DC2E00B2B904 /* NYSTKAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYSTKAlert.h; sourceTree = "<group>"; };
-		C8DA09372500DC2E00B2B904 /* NYSTKAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYSTKAlert.m; sourceTree = "<group>"; };
-		C8DA09382500DC2E00B2B904 /* NYSTKEmitterUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYSTKEmitterUtil.h; sourceTree = "<group>"; };
-		C8DA09392500DC2E00B2B904 /* NYSTKEmitterUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYSTKEmitterUtil.m; sourceTree = "<group>"; };
-		C8DA093A2500DC2E00B2B904 /* NYSTK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYSTK.h; sourceTree = "<group>"; };
-		C8DA093B2500DC2E00B2B904 /* NYSTKConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYSTKConst.h; sourceTree = "<group>"; };
-		C8DA093E2500E54800B2B904 /* UIColor+NYSTK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+NYSTK.h"; sourceTree = "<group>"; };
-		C8DA093F2500E54800B2B904 /* UIColor+NYSTK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+NYSTK.m"; sourceTree = "<group>"; };
 		CE93493E96C1D44D7EB9D284 /* Pods-NYSTKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NYSTKDemo.release.xcconfig"; path = "Target Support Files/Pods-NYSTKDemo/Pods-NYSTKDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -415,7 +391,6 @@
 		C8DA08F92500D4FC00B2B904 = {
 			isa = PBXGroup;
 			children = (
-				C8DA09042500D4FC00B2B904 /* NYSTKDemo */,
 				C86D7C8525020D2700F88707 /* Classes */,
 				C8327B4A2501DBD800842579 /* Support */,
 				C8DA09202500D4FE00B2B904 /* NYSTKDemoTests */,
@@ -436,14 +411,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C8DA09042500D4FC00B2B904 /* NYSTKDemo */ = {
-			isa = PBXGroup;
-			children = (
-				C8DA09352500DC2E00B2B904 /* NYSTK */,
-			);
-			path = NYSTKDemo;
-			sourceTree = "<group>";
-		};
 		C8DA09202500D4FE00B2B904 /* NYSTKDemoTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,30 +418,6 @@
 				C8DA09232500D4FE00B2B904 /* Info.plist */,
 			);
 			path = NYSTKDemoTests;
-			sourceTree = "<group>";
-		};
-		C8DA09352500DC2E00B2B904 /* NYSTK */ = {
-			isa = PBXGroup;
-			children = (
-				C89427C625062AD300BFEFAE /* NYSTK.bundle */,
-				C8DA093A2500DC2E00B2B904 /* NYSTK.h */,
-				C8DA09362500DC2E00B2B904 /* NYSTKAlert.h */,
-				C8DA09372500DC2E00B2B904 /* NYSTKAlert.m */,
-				C8DA093B2500DC2E00B2B904 /* NYSTKConst.h */,
-				C86D7C8B25021B4C00F88707 /* NYSTKConst.m */,
-				C86D7C8D25021BA300F88707 /* NYSTKConfig.h */,
-				C86D7C8E25021BA300F88707 /* NYSTKConfig.m */,
-				C8DA09382500DC2E00B2B904 /* NYSTKEmitterUtil.h */,
-				C8DA09392500DC2E00B2B904 /* NYSTKEmitterUtil.m */,
-				C86D7C9525022B4600F88707 /* NYSTKImageView.h */,
-				C86D7C9625022B4600F88707 /* NYSTKImageView.m */,
-				C8DA093E2500E54800B2B904 /* UIColor+NYSTK.h */,
-				C8DA093F2500E54800B2B904 /* UIColor+NYSTK.m */,
-				C86D7C8625020FAE00F88707 /* NSBundle+NYSTK.h */,
-				C86D7C8725020FAE00F88707 /* NSBundle+NYSTK.m */,
-			);
-			name = NYSTK;
-			path = ../../NYSTK;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -505,6 +448,7 @@
 				C8DA08FE2500D4FC00B2B904 /* Sources */,
 				C8DA08FF2500D4FC00B2B904 /* Frameworks */,
 				C8DA09002500D4FC00B2B904 /* Resources */,
+				AF20DF5307AF5EA729E6F0F9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -635,7 +579,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C89427C725062AD300BFEFAE /* NYSTK.bundle in Resources */,
 				C89427712506141E00BFEFAE /* alert_bg_invite@2x.png in Resources */,
 				C89427902506297C00BFEFAE /* group_banner_4_375x80_@2x.png in Resources */,
 				C8C6485025010140007DF995 /* colourbar_7@2x.png in Resources */,
@@ -725,6 +668,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		AF20DF5307AF5EA729E6F0F9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NYSTKDemo/Pods-NYSTKDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NYSTKDemo/Pods-NYSTKDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NYSTKDemo/Pods-NYSTKDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -740,17 +700,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8DA090D2500D4FC00B2B904 /* ViewController.m in Sources */,
-				C86D7C8C25021B4C00F88707 /* NYSTKConst.m in Sources */,
-				C86D7C9725022B4600F88707 /* NYSTKImageView.m in Sources */,
 				C86D7C9E2502453000F88707 /* Model.m in Sources */,
-				C8DA093D2500DC2E00B2B904 /* NYSTKEmitterUtil.m in Sources */,
-				C86D7C8825020FAE00F88707 /* NSBundle+NYSTK.m in Sources */,
 				C8DA09072500D4FC00B2B904 /* AppDelegate.m in Sources */,
 				C8327B4D2501DC1C00842579 /* DemoViewController.m in Sources */,
-				C8DA093C2500DC2E00B2B904 /* NYSTKAlert.m in Sources */,
-				C8DA09402500E54800B2B904 /* UIColor+NYSTK.m in Sources */,
 				C8DA09182500D4FE00B2B904 /* main.m in Sources */,
-				C86D7C8F25021BA300F88707 /* NYSTKConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -966,13 +919,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F9J739W8Y4;
+				DEVELOPMENT_TEAM = N92S3NU839;
 				INFOPLIST_FILE = "$(SRCROOT)/Support/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.niyongsheng.NYSTKDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.niyongsheng.NYSTKDemo.TSET;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -984,13 +937,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F9J739W8Y4;
+				DEVELOPMENT_TEAM = N92S3NU839;
 				INFOPLIST_FILE = "$(SRCROOT)/Support/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.niyongsheng.NYSTKDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.niyongsheng.NYSTKDemo.TSET;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

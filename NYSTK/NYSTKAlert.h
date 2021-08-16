@@ -4,7 +4,7 @@
 //
 //  Created by 倪永胜 on 2020/9/3.
 //  Copyright © 2020 倪永胜. All rights reserved.
-//
+//  Version:1.1.0
 
 #import <UIKit/UIKit.h>
 #import "NYSTKEmitterUtil.h"
@@ -13,10 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, NYSTKThemeModel) {
     NYSTKThemeModelLight,       // 浅色模式
-    NYSTKThemeModelDark         // 暗黑模式
+    NYSTKThemeModelDark,        // 暗黑模式
+    NYSTKThemeModelAuto API_AVAILABLE(ios(13.0))
 };
 
 typedef NS_ENUM(NSUInteger, NYSTKComeInDirection) {
+    NYSTKComeInDirectionDefault,// 中心进入
     NYSTKComeInDirectionUp,     // 顶部进入
     NYSTKComeInDirectionDown,   // 底部进入
     NYSTKComeInDirectionLeft,   // 左侧进入
@@ -159,6 +161,8 @@ typedef NS_ENUM(NSUInteger, NYSTKAlertType) {
 /*------------------------ TODO -----------------------------*/
 #pragma mark - 提交成功提示弹框
 
+/// clear default
++ (void)clearDefaultValue;
 
 @end
 
