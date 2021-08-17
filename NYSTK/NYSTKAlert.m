@@ -888,7 +888,7 @@
     }];
     
     // 彩带效果
-    [NYSTKEmitterUtil showEmitterType:emitter onView:bgView durationTime:NYSTKEmitterAnimationDuration];
+//    [NYSTKEmitterUtil showEmitterType:emitter onView:bgView durationTime:NYSTKEmitterAnimationDuration];
 }
 
 #pragma mark - 提示弹框(取消/确定)
