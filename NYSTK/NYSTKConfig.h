@@ -33,6 +33,33 @@ NS_ASSUME_NONNULL_BEGIN
 /// Default:  0, 0
 @property (assign, nonatomic) UIOffset offsetFromCenter;
 
+/// negative for left or up
+/// Default:  0, 0
+@property (assign, nonatomic) UIOffset offsetForLabel;
+
+/// negative for left or up
+/// Default:  0, 0
+@property (assign, nonatomic) UIOffset offsetForCloseBtn;
+
+/// negative for left or up
+/// Default:  0, 0
+@property (assign, nonatomic) UIOffset offsetForInfoBtn;
+
+/// Default:  NO
+@property (assign, nonatomic) BOOL isHiddenInfoBtn;
+
+/// Default:  NO
+@property (assign, nonatomic) BOOL isHiddenCloseBtn;
+
+@property(assign, nonatomic) UIViewContentMode bgImageViewContentMode;
+
+/// 弹框主题色
+@property (strong, nonatomic, nullable) UIColor *tintColor;
+
+@property (copy, nonatomic, nullable) NSString *closeBtnImageName;
+
+#pragma mark - 清除默认设置
+- (void)clearDefaultValue;
 
 /// Singleton Config instance
 + (instancetype)defaultConfig;

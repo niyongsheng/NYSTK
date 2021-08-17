@@ -36,6 +36,8 @@
 #endif
 
 UIKIT_EXTERN const CGFloat NYSTKBackgroundAlpha;
+UIKIT_EXTERN const CGFloat NYSTKNormalSpace;
+
 UIKIT_EXTERN const CGFloat NYSTKBackgroundCornerRadius;
 UIKIT_EXTERN const CGFloat NYSTKAutoDismissDuration;
 UIKIT_EXTERN const CGFloat NYSTKEmitterAnimationDuration;

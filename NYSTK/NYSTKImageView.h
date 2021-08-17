@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param imageURL url
 /// @param placeholder 占位图
 - (void)setImageWithURL:(nullable NSURL *)imageURL placeholder:(nullable UIImage *)placeholder;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -50,53 +50,85 @@
     } else if (self.indexPath.section == 1) {
         switch (self.indexPath.row) {
             case 0: {
-                [NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
-                                                    type:NYSTKColorfulToastTypeBlueFlower
-                                               direction:NYSTKComeInDirectionDefault
-                                                  onView:self.view
-                                              themeModel:self.tintModel];
+                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
+                                  attributedMessage:nil
+                                              image:nil
+                                               type:NYSTKColorfulToastTypeGreenStar
+                                          direction:NYSTKComeInDirectionDefault
+                                             onView:self.view
+                                        emitterType:NYSTKEmitterAnimationTypeColourbar
+                                         themeModel:self.tintModel
+                             infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
             }
                 break;
                 
             case 1: {
-                [NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
-                      type:NYSTKColorfulToastTypeYellowCat
-                 direction:NYSTKComeInDirectionDown
-                    onView:self.view
-                themeModel:self.tintModel];
+                [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 20);
+                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
+                                               type:NYSTKColorfulToastTypeBlueHand
+                                          direction:NYSTKComeInDirectionUp
+                                             onView:self.view
+                                         themeModel:self.tintModel
+                             infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
             }
                 break;
                 
             case 2: {
-                [NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
-                      type:NYSTKColorfulToastTypeGreenBook
-                 direction:NYSTKComeInDirectionLeft
-                    onView:self.view
-                themeModel:self.tintModel];
+                [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, -20);
+                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
+                                               type:NYSTKColorfulToastTypeBlueHand
+                                          direction:NYSTKComeInDirectionDown
+                                             onView:self.view
+                                         themeModel:self.tintModel
+                             infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
             }
                 break;
                 
             case 3: {
-                [NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
-                      type:NYSTKColorfulToastTypeYellowCat
-                 direction:NYSTKComeInDirectionRight
-                    onView:self.view
-                themeModel:self.tintModel];
+                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
+                                               type:NYSTKColorfulToastTypeBlueHand
+                                          direction:NYSTKComeInDirectionLeft
+                                             onView:self.view
+                                         themeModel:self.tintModel
+                             infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
             }
                 break;
                 
             case 4: {
-                [NYSTKAlert showColorfulToastWithMessage:@"NYSTK Test test tes te ..."
-                      type:NYSTKColorfulToastTypeBlueHand
-                 direction:NYSTKComeInDirectionUp
-                    onView:self.view
-                themeModel:self.tintModel];
+                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
+                                               type:NYSTKColorfulToastTypeBlueHand
+                                          direction:NYSTKComeInDirectionRight
+                                             onView:self.view
+                                         themeModel:self.tintModel
+                             infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
             }
                 break;
                 
             default:
                 break;
         }
+        [[NYSTKConfig defaultConfig] clearDefaultValue];
+        
     } else if (self.indexPath.section == 2) {
         NSString *amount = [NSString stringWithFormat:@"%d", 100];
         NSString *str = [NSString stringWithFormat:@"恭喜您^^\n获得%@积分", amount];
@@ -104,59 +136,47 @@
         switch (self.indexPath.row) {
             case 0: {
                 [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} range:[str rangeOfString:amount]];
-                [NYSTKAlert showSignAlertWithMessage:attrStr
-                                              onView:self.view
-                                            signType:NYSTKSignTypeYellow
-                                         emitterType:NYSTKEmitterAnimationTypeColourbar
-                                          themeModel:self.tintModel
-                              infoButtonClickedBlock:^{
-                    
-                } closeButtonClickedBlock:^{
+                [NYSTKConfig defaultConfig].offsetForLabel = UIOffsetMake(0, -25);
+                [NYSTKConfig defaultConfig].offsetForCloseBtn = UIOffsetMake(-70, 100);
+                [NYSTKConfig defaultConfig].offsetForInfoBtn = UIOffsetMake(0, 10);
+                [NYSTKConfig defaultConfig].tintColor = [UIColor colorWithRed:1.00 green:0.76 blue:0.05 alpha:1.00];
+                [NYSTKAlert showImageAlertWithMessage:attrStr
+                               infoButtonClickedBlock:^{
                     
                 }];
             }
                 break;
                 
             case 1: {
-                [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} range:[str rangeOfString:amount]];
-                [NYSTKAlert showSignAlertWithMessage:attrStr
-                                              onView:self.view
-                                            signType:NYSTKSignTypeRed
-                                         emitterType:NYSTKEmitterAnimationTypeSnow
-                                          themeModel:self.tintModel
-                              infoButtonClickedBlock:^{
-                    
-                } closeButtonClickedBlock:^{
+                [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} range:[str rangeOfString:amount]];
+                [NYSTKConfig defaultConfig].offsetForCloseBtn = UIOffsetMake(-20, 10);
+                [NYSTKConfig defaultConfig].offsetForInfoBtn = UIOffsetMake(0, 10);
+                [NYSTKConfig defaultConfig].tintColor = [UIColor redColor];
+                [NYSTKAlert showImageAlertWithMessage:attrStr
+                                                image:@"sign_red_bg"
+                               infoButtonClickedBlock:^{
                     
                 }];
             }
                 break;
                 
             case 2: {
-                [NYSTKAlert showAlertWithImageURL:[NSURL URLWithString:ImageURL1]
-                                      contentMode:UIViewContentModeScaleToFill
-                                             size:CGSizeMake(NYSTK_ScreenWidth * 0.7, NYSTK_ScreenWidth * 0.7 * 3/4)
-                                           onView:self.view
-                                      emitterType:NYSTKEmitterAnimationTypeRain
-                                       themeModel:self.tintModel
-                           infoButtonClickedBlock:^{
-                    
-                } closeButtonClickedBlock:^{
+                [NYSTKConfig defaultConfig].offsetForInfoBtn = UIOffsetMake(0, 115);
+                [NYSTKConfig defaultConfig].tintColor = [UIColor redColor];
+                [NYSTKAlert showImageAlertWithMessage:nil
+                                             imageURL:[NSURL URLWithString:ImageURL1]
+                               infoButtonClickedBlock:^{
                     
                 }];
             }
                 break;
                 
             case 3: {
-                [NYSTKAlert showAlertWithImageURL:[NSURL URLWithString:ImageURL2]
-                                      contentMode:UIViewContentModeScaleAspectFit
-                                             size:CGSizeMake(NYSTK_ScreenWidth * 0.7, NYSTK_ScreenWidth * 0.7 * 4/3)
-                                           onView:self.view
-                                      emitterType:NYSTKEmitterAnimationTypeFireworks
-                                       themeModel:self.tintModel
-                           infoButtonClickedBlock:^{
-                    
-                } closeButtonClickedBlock:^{
+                [NYSTKConfig defaultConfig].isHiddenInfoBtn = YES;
+                [NYSTKConfig defaultConfig].bgImageViewContentMode = UIViewContentModeScaleAspectFill;
+                [NYSTKAlert showImageAlertWithMessage:nil
+                                             imageURL:[NSURL URLWithString:ImageURL2]
+                               infoButtonClickedBlock:^{
                     
                 }];
             }
@@ -165,15 +185,17 @@
             default:
                 break;
         }
+        [[NYSTKConfig defaultConfig] clearDefaultValue];
+        
     } else if (self.indexPath.section == 3) {
         switch (self.indexPath.row) {
             case 0: {
-                [NYSTKAlert showMessageWithTitle:@"SUCCESS"
-                                         message:[self getMessageAttribute:@"NYSTK\n success info" type:NYSTKMessageTypeSuccess]
+                [NYSTKAlert showMessageWithTitle:@"提醒"
+                                         message:nil
+                                       infoTitle:@"登录"
+                                      closeTitle:@"取消"
                                           onView:self.view
-                                            type:NYSTKMessageTypeSuccess
-                                       colorType:NYSTKMessageColorTypeBlue
-                                     emitterType:NYSTKEmitterAnimationTypeColourbar
+                                     emitterType:NYSTKEmitterAnimationTypeNone
                                       themeModel:self.tintModel
                           infoButtonClickedBlock:^{
                     
@@ -184,34 +206,34 @@
                 break;
                 
             case 1: {
-                [NYSTKAlert showMessageWithTitle:@"Error"
-                                         message:[self getMessageAttribute:@"NYSTK\n error info" type:NYSTKMessageTypeEror]
-                                          onView:self.view
-                                            type:NYSTKMessageTypeEror
-                                       colorType:NYSTKMessageColorTypeRed
-                                     emitterType:NYSTKEmitterAnimationTypeSnow
-                                      themeModel:self.tintModel
-                          infoButtonClickedBlock:^{
-                    
-                } closeButtonClickedBlock:^{
-                    
-                }];
+//                [NYSTKAlert showMessageWithTitle:@"Error"
+//                                         message:[self getMessageAttribute:@"NYSTK\n error info" type:NYSTKMessageTypeEror]
+//                                          onView:self.view
+//                                            type:NYSTKMessageTypeEror
+//                                       colorType:NYSTKMessageColorTypeRed
+//                                     emitterType:NYSTKEmitterAnimationTypeSnow
+//                                      themeModel:self.tintModel
+//                          infoButtonClickedBlock:^{
+//
+//                } closeButtonClickedBlock:^{
+//
+//                }];
             }
                 break;
                 
             case 2: {
-                [NYSTKAlert showMessageWithTitle:@"WARNING"
-                                         message:[self getMessageAttribute:@"NYSTK\n warning info" type:NYSTKMessageTypeWarning]
-                                          onView:self.view
-                                            type:NYSTKMessageTypeWarning
-                                       colorType:NYSTKMessageColorTypeBlue
-                                     emitterType:NYSTKEmitterAnimationTypeRain
-                                      themeModel:self.tintModel
-                          infoButtonClickedBlock:^{
-                    
-                } closeButtonClickedBlock:^{
-                    
-                }];
+//                [NYSTKAlert showMessageWithTitle:@"WARNING"
+//                                         message:[self getMessageAttribute:@"NYSTK\n warning info" type:NYSTKMessageTypeWarning]
+//                                          onView:self.view
+//                                            type:NYSTKMessageTypeWarning
+//                                       colorType:NYSTKMessageColorTypeBlue
+//                                     emitterType:NYSTKEmitterAnimationTypeRain
+//                                      themeModel:self.tintModel
+//                          infoButtonClickedBlock:^{
+//
+//                } closeButtonClickedBlock:^{
+//
+//                }];
             }
                 break;
                 
@@ -221,12 +243,11 @@
     } else if (self.indexPath.section == 4) {
         switch (self.indexPath.row) {
             case 0: {
-                [NYSTKAlert showAlertWithTitle:@"查看优惠券"
-                                       message:[[NSAttributedString alloc] initWithString:@"激活码：MVBCQ-B3VPW-CT369"]
-                                          time:@"有效期:2020-09-07"
-                                  infoBtnTitle:@"确定"
+                [NYSTKAlert showAlertWithTitle:@"TEST"
+                                       message:nil
+                                     infoTitle:@"登录"
+                                    closeTitle:@"取消"
                                         onView:self.view
-                                          type:NYSTKAlertTypeDefault
                                    emitterType:NYSTKEmitterAnimationTypeNone
                                     themeModel:self.tintModel
                         infoButtonClickedBlock:^{
@@ -238,19 +259,20 @@
                 break;
                 
             case 1: {
-                [NYSTKAlert showAlertWithTitle:@"查看优惠券"
-                                       message:[[NSAttributedString alloc] initWithString:@"激活码：MVBCQ-B3VPW-CT369"]
-                                          time:@"有效期:2020-09-07"
-                                  infoBtnTitle:@"确定"
-                                        onView:self.view
-                                          type:NYSTKAlertTypeDefault
-                                   emitterType:NYSTKEmitterAnimationTypeColourbar
-                                    themeModel:self.tintModel
-                        infoButtonClickedBlock:^{
-                    
-                } closeButtonClickedBlock:^{
-                    
-                }];
+                //                [NYSTKAlert showAlertWithTitle:@"查看优惠券"
+                //                                       message:[[NSAttributedString alloc] initWithString:@"激活码：MVBCQ-B3VPW-CT369"]
+                //                                          time:@"有效期:2020-09-07"
+                //                                  infoBtnTitle:@"确定"
+                //                                        onView:self.view
+                //                                          type:NYSTKAlertTypeDefault
+                //                                   emitterType:NYSTKEmitterAnimationTypeNone
+                //                                    themeModel:self.tintModel
+                //                        infoButtonClickedBlock:^{
+                //
+                //                } closeButtonClickedBlock:^{
+                //
+                //                }];
+               
             }
                 break;
                 

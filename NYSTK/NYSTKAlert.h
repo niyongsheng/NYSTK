@@ -26,140 +26,295 @@ typedef NS_ENUM(NSUInteger, NYSTKComeInDirection) {
 };
 
 typedef NS_ENUM(NSUInteger, NYSTKColorfulToastType) {
-    NYSTKColorfulToastTypeGreenBook,
-    NYSTKColorfulToastTypePurpleFlower,
-    NYSTKColorfulToastTypeBlueHand,
-    NYSTKColorfulToastTypeBlueFlower,
-    NYSTKColorfulToastTypeYellowCat,
-    NYSTKColorfulToastTypeGreenStar
-};
-
-typedef NS_ENUM(NSUInteger, NYSTKSignType) {
-    NYSTKSignTypeYellow,        // 黄色签到框
-    NYSTKSignTypeRed            // 红色签到框
-};
-
-typedef NS_ENUM(NSUInteger, NYSTKMessageColorType) {
-    NYSTKMessageColorTypeBlue,  // 蓝色弹出框
-    NYSTKMessageColorTypeRed    // 红色弹出框
+    NYSTKColorfulToastTypeGreenBook,     // 绿色书本
+    NYSTKColorfulToastTypePurpleFlower,  // 粉色花朵
+    NYSTKColorfulToastTypeBlueHand,      // 蓝色手指
+    NYSTKColorfulToastTypeBlueFlower,    // 蓝色花朵
+    NYSTKColorfulToastTypeYellowCat,     // 黄色小猫
+    NYSTKColorfulToastTypeGreenStar,     // 绿色星星
+    NYSTKColorfulToastTypeCustom         // 自定义图片（需传imageName）
 };
 
 typedef NS_ENUM(NSUInteger, NYSTKMessageType) {
+    NYSTKMessageTypeDefault,    // 默认
     NYSTKMessageTypeSuccess,    // 成功
     NYSTKMessageTypeEror,       // 错误
     NYSTKMessageTypeWarning     // 警告
 };
 
-typedef NS_ENUM(NSUInteger, NYSTKAlertType) {
-    NYSTKAlertTypeDefault,      // 默认
-    NYSTKAlertTypeInvite        // 邀请卡
-};
-
 @interface NYSTKAlert : UIView
 
 #pragma mark - Toast
-/// 纯文本toast
-/// @param message 提示文本
-/// @param theme 主题样式
-+ (void)showToastWithMessage:(NSString *)message themeModel:(NYSTKThemeModel)theme;
+#pragma mark - Toast弹框
 
-/// 图文toast提示
-/// @param message 提示样式
-/// @param imageName 提示图
-/// @param theme 主题样式
-+ (void)showToastWithMessage:(NSString *)message image:(NSString *)imageName themeModel:(NYSTKThemeModel)theme;
+/// Toast弹框
+/// @param message 内容信息
++ (void)showToastWithMessage:(NSString * _Nonnull)message;
 
-/// 炫彩弹框
-/// @param message 信息
-/// @param type 类型
+/// Toast弹框
+/// @param message 内容信息
+/// @param theme 主题
++ (void)showToastWithMessage:(NSString * _Nonnull)message
+                  themeModel:(NYSTKThemeModel)theme;
+
+/// Toast弹框
+/// @param message 内容信息
+/// @param imageName 自定义图片名
+/// @param theme 主题
++ (void)showToastWithMessage:(NSString * _Nonnull)message
+                       image:(NSString * _Nonnull)imageName
+                  themeModel:(NYSTKThemeModel)theme;
+
+/// Toast弹框
+/// @param message 内容信息
+/// @param imageName 自定义图片名
+/// @param view 作用域
+/// @param theme 主题
++ (void)showToastWithMessage:(NSString * _Nonnull)message
+                       image:(NSString *)imageName
+                        view:(UIView * _Nonnull)view
+                  themeModel:(NYSTKThemeModel)theme;
+
+
+#pragma mark - 图片弹框条
+
+/// 图片弹框条
+/// @param message 内容信息
++ (void)showImageBarWithMessage:(NSString *)message;
+
+/// 图片弹框条
+/// @param attributedMessage 富文本信息
++ (void)showImageBarWithAttributedMessage:(NSAttributedString *)attributedMessage;
+
+/// 图片弹框条
+/// @param message 内容信息
+/// @param view 作用域
+/// @param infoButtonClickedBlock 点击事件回调
++ (void)showImageBarWithMessage:(NSString *)message
+                         onView:(UIView *)view
+         infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock;
+
+/// 图片弹框条
+/// @param attributedMessage 富文本信息
+/// @param view 作用域
+/// @param infoButtonClickedBlock 点击事件回调
++ (void)showImageBarWithAttributedMessage:(NSAttributedString *)attributedMessage
+                                   onView:(UIView *)view
+                   infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock;
+
+/// 图片弹框条
+/// @param message 内容信息
+/// @param type 弹框类型
+/// @param view 作用域
+/// @param infoButtonClickedBlock 点击事件回调
++ (void)showImageBarWithMessage:(NSString *)message
+                          image:(NSString *)imageName
+                         onView:(UIView *)view
+         infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock;
+
+/// 图片弹框条
+/// @param attributedMessage 富文本信息
+/// @param imageName 自定义图片名
+/// @param view 作用域
+/// @param infoButtonClickedBlock 点击事件回调
++ (void)showImageBarWithAttributedMessage:(NSAttributedString *)attributedMessage
+                                    image:(NSString *)imageName
+                                   onView:(UIView *)view
+                   infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock;
+
+/// 图片弹框条
+/// @param message 内容信息
+/// @param type 弹框类型
+/// @param view 作用域
+/// @param infoButtonClickedBlock 点击事件回调
+/// @param closeButtonClickedBlock 关闭事件回调
++ (void)showImageBarWithMessage:(NSString *)message
+                           type:(NYSTKColorfulToastType)type
+                         onView:(UIView *)view
+         infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
+        closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
+
+/// 图片弹框条
+/// @param attributedMessage 富文本信息
+/// @param type 弹框类型
+/// @param view 作用域
+/// @param infoButtonClickedBlock 点击事件回调
+/// @param closeButtonClickedBlock 关闭事件回调
++ (void)showImageBarWithAttributedMessage:(NSAttributedString *)attributedMessage
+                                     type:(NYSTKColorfulToastType)type
+                                   onView:(UIView *)view
+                   infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
+                  closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
+
+/// 图片弹框条
+/// @param message 内容信息
+/// @param type 弹框类型
 /// @param direction 进入方向
 /// @param view 作用域
-/// @param theme 主题样式
-+ (void)showColorfulToastWithMessage:(NSString *)message
-                                type:(NYSTKColorfulToastType)type
-                           direction:(NYSTKComeInDirection)direction
-                              onView:(UIView *)view
-                          themeModel:(NYSTKThemeModel)theme;
+/// @param theme 主题
+/// @param infoButtonClickedBlock 点击事件回调
+/// @param closeButtonClickedBlock 关闭事件回调
++ (void)showImageBarWithMessage:(NSString *)message
+                           type:(NYSTKColorfulToastType)type
+                      direction:(NYSTKComeInDirection)direction
+                         onView:(UIView *)view
+                     themeModel:(NYSTKThemeModel)theme
+         infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
+        closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
 
-#pragma mark - 带block回调的签到弹窗
-/// 签到弹框
-/// @param signMessageText 富文本
+/// 图片弹框条
+/// @param message 内容信息
+/// @param attributedMessage 富文本信息
+/// @param imageName 自定义图片名
+/// @param type 弹框类型
+/// @param direction 进入方向
 /// @param view 作用域
-/// @param type 类型
-/// @param emitter 粒子样式
-/// @param theme 主题样式
-/// @param infoButtonClickedBlock 详情回调
-/// @param closeButtonClickedBlock 关闭回调
-+ (void)showSignAlertWithMessage:(NSAttributedString *)signMessageText
-                          onView:(UIView *)view
-                        signType:(NYSTKSignType)type
-                     emitterType:(NYSTKEmitterAnimationType)emitter
-                      themeModel:(NYSTKThemeModel)theme
-          infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
-         closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
+/// @param emitter 粒子效果
+/// @param theme 主题
+/// @param infoButtonClickedBlock 点击事件回调
+/// @param closeButtonClickedBlock 关闭事件回调
++ (void)showImageBarWithMessage:(NSString *)message
+              attributedMessage:(NSAttributedString *)attributedMessage
+                          image:(NSString *)imageName
+                           type:(NYSTKColorfulToastType)type
+                      direction:(NYSTKComeInDirection)direction
+                         onView:(UIView *)view
+                    emitterType:(NYSTKEmitterAnimationType)emitter
+                     themeModel:(NYSTKThemeModel)theme
+         infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
+        closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
 
-/// 网络图片弹框
-/// @param imageURL 图片url
-/// @param contentMode 显示方式
-/// @param size 尺寸
+
+#pragma mark - 图片\签到弹框
+
+/// 图片签到弹框
+/// @param messageText 富文本信息
+/// @param infoButtonClickedBlock 点击事件回调
++ (void)showImageAlertWithMessage:(NSAttributedString *)messageText
+infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock;
+
+/// 图片弹框
+/// @param messageText 富文本信息
+/// @param imageURL 自定义弹框背景图url
+/// @param infoButtonClickedBlock 点击事件回调
++ (void)showImageAlertWithMessage:(NSAttributedString *)messageText
+                         imageURL:(NSURL *)imageURL
+infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock;
+
+/// 图片弹框
+/// @param messageText 富文本信息
+/// @param imageName 自定义弹框背景图
+/// @param infoButtonClickedBlock 点击事件回调
++ (void)showImageAlertWithMessage:(NSAttributedString *)messageText
+                            image:(NSString *)imageName
+infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock;
+
+
+/// 图片\签到弹框
+/// @param messageText 富文本信息
+/// @param imageName 自定义弹框背景图
+/// @param imageURL 自定义弹框背景图url
 /// @param view 作用域
-/// @param emitter 粒子样式
-/// @param theme 主题样式
-/// @param infoButtonClickedBlock 详情回调
-/// @param closeButtonClickedBlock 关闭回调
-+ (void)showAlertWithImageURL:(NSURL *)imageURL
-                  contentMode:(UIViewContentMode)contentMode
-                         size:(CGSize)size
-                       onView:(UIView *)view
-                  emitterType:(NYSTKEmitterAnimationType)emitter
-                   themeModel:(NYSTKThemeModel)theme
-       infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
-      closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
+/// @param emitter 粒子效果
+/// @param theme 主题
+/// @param infoButtonClickedBlock 点击事件回调
+/// @param closeButtonClickedBlock 关闭事件回调
++ (void)showImageAlertWithMessage:(NSAttributedString *)messageText
+                            image:(NSString *)imageName
+                         imageURL:(NSURL *)imageURL
+                           onView:(UIView *)view
+                      emitterType:(NYSTKEmitterAnimationType)emitter
+                       themeModel:(NYSTKThemeModel)theme
+           infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
+closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
+
+
+#pragma mark - 信息弹框(默认/成功/失败/警告)
 
 /// 信息弹框
 /// @param title 标题
 /// @param message 信息
+/// @param infoTitle 详情按钮标题
+/// @param closeTitle 关闭按钮标题
 /// @param view 作用域
-/// @param type 成功/失败/警告
-/// @param colorType 颜色
 /// @param emitter 粒子效果
 /// @param theme 主题
 /// @param infoButtonClickedBlock 详情回调
 /// @param closeButtonClickedBlock 关闭回调
 + (void)showMessageWithTitle:(NSString *)title
                      message:(NSAttributedString *)message
+                   infoTitle:(NSString *)infoTitle
+                  closeTitle:(NSString *)closeTitle
                       onView:(UIView *)view
-                    type:(NYSTKMessageType)type
-                   colorType:(NYSTKMessageColorType)colorType
                  emitterType:(NYSTKEmitterAnimationType)emitter
                   themeModel:(NYSTKThemeModel)theme
       infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
      closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
 
-/// 提示弹框
+/// 信息弹框
 /// @param title 标题
 /// @param message 信息
-/// @param time 时间
-/// @param btnTitle 确认按钮标题
+/// @param infoTitle 详情按钮标题
+/// @param closeTitle 关闭按钮标题
 /// @param view 作用域
-/// @param type 类型
+/// @param messageType 默认/成功/失败/警告
+/// @param emitter 粒子效果
+/// @param theme 主题
+/// @param infoButtonClickedBlock 详情回调
+/// @param closeButtonClickedBlock 关闭回调
++ (void)showMessageWithTitle:(NSString *)title
+                     message:(NSAttributedString *)message
+                   infoTitle:(NSString *)infoTitle
+                  closeTitle:(NSString *)closeTitle
+                      onView:(UIView *)view
+                        type:(NYSTKMessageType)messageType
+                 emitterType:(NYSTKEmitterAnimationType)emitter
+                  themeModel:(NYSTKThemeModel)theme
+      infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
+     closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
+
+#pragma mark - 提示弹框(取消/确定)
+
+/// 提示弹框
+/// @param title 标题
+/// @param message 富文本信息
+/// @param view 作用域
 /// @param emitter 粒子效果
 /// @param theme 主题
 /// @param infoButtonClickedBlock 详情回调
 /// @param closeButtonClickedBlock 关闭回调
 + (void)showAlertWithTitle:(NSString *)title
                    message:(NSAttributedString *)message
-                      time:(NSString *)time
-              infoBtnTitle:(NSString *)btnTitle
                     onView:(UIView *)view
-                      type:(NYSTKAlertType)type
+               emitterType:(NYSTKEmitterAnimationType)emitter
+                themeModel:(NYSTKThemeModel)theme
+    infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
+   closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
+
+/// 提示弹框
+/// @param title 标题
+/// @param message 富文本信息
+/// @param infoTitle 详情按钮标题
+/// @param closeTitle 关闭按钮标题
+/// @param view 作用域
+/// @param emitter 粒子效果
+/// @param theme 主题
+/// @param infoButtonClickedBlock 详情回调
+/// @param closeButtonClickedBlock 关闭回调
++ (void)showAlertWithTitle:(NSString *)title
+                   message:(NSAttributedString *)message
+                 infoTitle:(NSString *)infoTitle
+                closeTitle:(NSString *)closeTitle
+                    onView:(UIView *)view
                emitterType:(NYSTKEmitterAnimationType)emitter
                 themeModel:(NYSTKThemeModel)theme
     infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
    closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
 
 /*------------------------ TODO -----------------------------*/
-#pragma mark - 提交成功提示弹框
+#pragma mark - 自定义View弹框
+
+
 
 /// clear default
 + (void)clearDefaultValue;

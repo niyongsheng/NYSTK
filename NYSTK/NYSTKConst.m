@@ -9,6 +9,7 @@
 #import "NYSTKConst.h"
 
 const CGFloat NYSTKBackgroundAlpha = 0.85;
+const CGFloat NYSTKNormalSpace = 10.0;
 const CGFloat NYSTKBackgroundCornerRadius = 5.0;
 const CGFloat NYSTKAutoDismissDuration = 1.17;
 const CGFloat NYSTKEmitterAnimationDuration = 1.25;

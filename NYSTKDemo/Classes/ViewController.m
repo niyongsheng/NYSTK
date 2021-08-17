@@ -112,14 +112,16 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if ([indexPath isEqual:[NSIndexPath indexPathForRow:0 inSection:0]]) {
-        
+        [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 350);
         [NYSTKAlert showToastWithMessage:@"Toast Test !" themeModel:self.segmentedControl.selectedSegmentIndex];
+        [[NYSTKConfig defaultConfig] clearDefaultValue];
         
     } else if ([indexPath isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
-        
+        [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 200);
         [NYSTKAlert showToastWithMessage:@"Toast Image Test !"
                                    image:@"logo"
                               themeModel:self.segmentedControl.selectedSegmentIndex];
+        [[NYSTKConfig defaultConfig] clearDefaultValue];
         
     } else {
         
@@ -171,12 +173,12 @@
         
         Model *model_1 = [Model new];
         model_1.header = @"Colorful Toast Demo";
-        model_1.detailTitles = @[@"default", @"down", @"left", @"right", @"up"];
+        model_1.detailTitles = @[@"default", @"up", @"down", @"left", @"right"];
         
         Model *model_2 = [Model new];
         model_2.header = @"Custom Image Demo";
         model_2.titles = @[@"Sign-in Demo1", @"Sign-in Demo2", @"Custom Image Demo1", @"Custom Image Demo2"];
-        model_2.detailTitles = @[@"Colourbar", @"Snow", @"Rain", @"Fireworks"];
+        model_2.detailTitles = @[@"Colourbar", @"Custom image", @"URL image1", @"URL image2"];
         
         Model *model_3 = [Model new];
         model_3.header = @"Message Demo";
@@ -284,7 +286,7 @@
 
 #pragma mark - Screen Orientation Control
 - (BOOL)shouldAutorotate {
-    return YES;
+    return NO;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
