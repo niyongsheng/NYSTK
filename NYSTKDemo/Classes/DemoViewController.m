@@ -7,16 +7,20 @@
 //
 
 #import "DemoViewController.h"
+#import "BLCustomContentView.h"
 #import "NYSTK.h"
 
 #define ImageURL1 @"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2775010751,3989798890&fm=26&gp=0.jpg"
 #define ImageURL2 @"http://anjufile.qmook.com/aaaaaaa/0a/79b2d4c6305e4c1712fd67a8753bf5.png"
 #define ImageURL3 @"https://s1.ax1x.com/2020/09/07/wn4l6J.png"
 
-@interface DemoViewController ()
+static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+@interface DemoViewController () <BLCustomContentViewDelegate>
 @property (nonatomic, strong) UIImageView *bgimageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIVisualEffectView *effectView;
+@property (nonatomic, strong) BLCustomContentView *contentView;
 @end
 
 @implementation DemoViewController
@@ -68,7 +72,7 @@
                 
             case 1: {
                 [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 20);
-                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
+                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ... NYSTK Test test tes te ..."
                                                type:NYSTKColorfulToastTypeBlueHand
                                           direction:NYSTKComeInDirectionUp
                                              onView:self.view
@@ -84,7 +88,7 @@
             case 2: {
                 [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, -20);
                 [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
-                                               type:NYSTKColorfulToastTypeBlueHand
+                                               type:NYSTKColorfulToastTypeGreenBook
                                           direction:NYSTKComeInDirectionDown
                                              onView:self.view
                                          themeModel:self.tintModel
@@ -98,7 +102,7 @@
                 
             case 3: {
                 [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
-                                               type:NYSTKColorfulToastTypeBlueHand
+                                               type:NYSTKColorfulToastTypeYellowCat
                                           direction:NYSTKComeInDirectionLeft
                                              onView:self.view
                                          themeModel:self.tintModel
@@ -112,9 +116,26 @@
                 
             case 4: {
                 [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
-                                               type:NYSTKColorfulToastTypeBlueHand
+                                               type:NYSTKColorfulToastTypeBlueFlower
                                           direction:NYSTKComeInDirectionRight
                                              onView:self.view
+                                         themeModel:self.tintModel
+                             infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
+            }
+                break;
+                
+            case 5: {
+                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te t e ..."
+                                  attributedMessage:nil
+                                              image:@"custom_icon_image_bar"
+                                               type:NYSTKColorfulToastTypeCustom
+                                          direction:NYSTKComeInDirectionDefault
+                                             onView:self.view
+                                        emitterType:NYSTKEmitterAnimationTypeNone
                                          themeModel:self.tintModel
                              infoButtonClickedBlock:^{
                     
@@ -133,9 +154,10 @@
         NSString *amount = [NSString stringWithFormat:@"%d", 100];
         NSString *str = [NSString stringWithFormat:@"恭喜您^^\n获得%@积分", amount];
         NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str];
+        [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor darkGrayColor]} range:[str rangeOfString:str]];
+        [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} range:[str rangeOfString:amount]];
         switch (self.indexPath.row) {
             case 0: {
-                [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} range:[str rangeOfString:amount]];
                 [NYSTKConfig defaultConfig].offsetForLabel = UIOffsetMake(0, -25);
                 [NYSTKConfig defaultConfig].offsetForCloseBtn = UIOffsetMake(-70, 100);
                 [NYSTKConfig defaultConfig].offsetForInfoBtn = UIOffsetMake(0, 10);
@@ -148,13 +170,19 @@
                 break;
                 
             case 1: {
-                [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} range:[str rangeOfString:amount]];
+                [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} range:[str rangeOfString:amount]];
                 [NYSTKConfig defaultConfig].offsetForCloseBtn = UIOffsetMake(-20, 10);
                 [NYSTKConfig defaultConfig].offsetForInfoBtn = UIOffsetMake(0, 10);
                 [NYSTKConfig defaultConfig].tintColor = [UIColor redColor];
                 [NYSTKAlert showImageAlertWithMessage:attrStr
                                                 image:@"sign_red_bg"
+                                             imageURL:nil
+                                               onView:self.view
+                                          emitterType:NYSTKEmitterAnimationTypeSnow
+                                           themeModel:self.tintModel
                                infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
                     
                 }];
             }
@@ -164,8 +192,14 @@
                 [NYSTKConfig defaultConfig].offsetForInfoBtn = UIOffsetMake(0, 115);
                 [NYSTKConfig defaultConfig].tintColor = [UIColor redColor];
                 [NYSTKAlert showImageAlertWithMessage:nil
+                                                image:nil
                                              imageURL:[NSURL URLWithString:ImageURL1]
+                                               onView:self.view
+                                          emitterType:NYSTKEmitterAnimationTypeNone
+                                           themeModel:self.tintModel
                                infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
                     
                 }];
             }
@@ -175,8 +209,14 @@
                 [NYSTKConfig defaultConfig].isHiddenInfoBtn = YES;
                 [NYSTKConfig defaultConfig].bgImageViewContentMode = UIViewContentModeScaleAspectFill;
                 [NYSTKAlert showImageAlertWithMessage:nil
+                                                image:nil
                                              imageURL:[NSURL URLWithString:ImageURL2]
+                                               onView:self.view
+                                          emitterType:NYSTKEmitterAnimationTypeNone
+                                           themeModel:self.tintModel
                                infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
                     
                 }];
             }
@@ -188,13 +228,27 @@
         [[NYSTKConfig defaultConfig] clearDefaultValue];
         
     } else if (self.indexPath.section == 3) {
+        NSString *titleStr = @"温馨提醒";
+        NSString *cnStr = @"给个小星星✨\n鼓励一下吧\n";
+        NSString *enStr = @"Please click the Star.";
+        NSString *string = [cnStr stringByAppendingString:enStr];
+        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:string];
+        [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor systemPinkColor]} range:[string rangeOfString:string]];
+        [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} range:[string rangeOfString:@"小星星"]];
+        [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor blueColor]} range:[string rangeOfString:enStr]];
+        [attrStr addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:[string rangeOfString:enStr]];
+        
         switch (self.indexPath.row) {
             case 0: {
-                [NYSTKAlert showMessageWithTitle:@"提醒"
-                                         message:nil
-                                       infoTitle:@"登录"
-                                      closeTitle:@"取消"
+                [NYSTKConfig defaultConfig].transformDuration = CGFLOAT_MIN;
+                [NYSTKConfig defaultConfig].isCloseFeedback = YES;
+                [NYSTKAlert showMessageWithTitle:titleStr
+                                         message:[[NSAttributedString alloc] initWithString:enStr]
+                                       imageName:@"alert_icon_top"
+                                       infoTitle:@"I know"
+                                      closeTitle:nil
                                           onView:self.view
+                                            type:NYSTKMessageTypeDefault
                                      emitterType:NYSTKEmitterAnimationTypeNone
                                       themeModel:self.tintModel
                           infoButtonClickedBlock:^{
@@ -206,47 +260,72 @@
                 break;
                 
             case 1: {
-//                [NYSTKAlert showMessageWithTitle:@"Error"
-//                                         message:[self getMessageAttribute:@"NYSTK\n error info" type:NYSTKMessageTypeEror]
-//                                          onView:self.view
-//                                            type:NYSTKMessageTypeEror
-//                                       colorType:NYSTKMessageColorTypeRed
-//                                     emitterType:NYSTKEmitterAnimationTypeSnow
-//                                      themeModel:self.tintModel
-//                          infoButtonClickedBlock:^{
-//
-//                } closeButtonClickedBlock:^{
-//
-//                }];
+                [NYSTKAlert showMessageWithTitle:titleStr
+                                         message:attrStr
+                                       imageName:nil
+                                       infoTitle:@"好的"
+                                      closeTitle:@"取消"
+                                          onView:self.view
+                                            type:NYSTKMessageTypeSuccess
+                                     emitterType:NYSTKEmitterAnimationTypeColourbar
+                                      themeModel:self.tintModel
+                          infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
             }
                 break;
                 
             case 2: {
-//                [NYSTKAlert showMessageWithTitle:@"WARNING"
-//                                         message:[self getMessageAttribute:@"NYSTK\n warning info" type:NYSTKMessageTypeWarning]
-//                                          onView:self.view
-//                                            type:NYSTKMessageTypeWarning
-//                                       colorType:NYSTKMessageColorTypeBlue
-//                                     emitterType:NYSTKEmitterAnimationTypeRain
-//                                      themeModel:self.tintModel
-//                          infoButtonClickedBlock:^{
-//
-//                } closeButtonClickedBlock:^{
-//
-//                }];
+                [NYSTKAlert showMessageWithTitle:titleStr
+                                         message:attrStr
+                                       imageName:nil
+                                       infoTitle:@"好的"
+                                      closeTitle:@"取消"
+                                          onView:self.view
+                                            type:NYSTKMessageTypeWarning
+                                     emitterType:NYSTKEmitterAnimationTypeRain
+                                      themeModel:self.tintModel
+                          infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
+            }
+                break;
+                
+            case 3: {
+                [NYSTKAlert showMessageWithTitle:titleStr
+                                         message:attrStr
+                                       imageName:nil
+                                       infoTitle:@"好的"
+                                      closeTitle:@"取消"
+                                          onView:self.view
+                                            type:NYSTKMessageTypeEror
+                                     emitterType:NYSTKEmitterAnimationTypeSnow
+                                      themeModel:self.tintModel
+                          infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
             }
                 break;
                 
             default:
                 break;
         }
+        [[NYSTKConfig defaultConfig] clearDefaultValue];
+        
     } else if (self.indexPath.section == 4) {
         switch (self.indexPath.row) {
             case 0: {
-                [NYSTKAlert showAlertWithTitle:@"TEST"
-                                       message:nil
-                                     infoTitle:@"登录"
-                                    closeTitle:@"取消"
+                NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:loremString];
+                [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor grayColor]} range:[loremString rangeOfString:loremString]];
+                
+                [NYSTKAlert showAlertWithTitle:@"TEST⚠️"
+                                       message:attrStr
                                         onView:self.view
                                    emitterType:NYSTKEmitterAnimationTypeNone
                                     themeModel:self.tintModel
@@ -259,20 +338,29 @@
                 break;
                 
             case 1: {
-                //                [NYSTKAlert showAlertWithTitle:@"查看优惠券"
-                //                                       message:[[NSAttributedString alloc] initWithString:@"激活码：MVBCQ-B3VPW-CT369"]
-                //                                          time:@"有效期:2020-09-07"
-                //                                  infoBtnTitle:@"确定"
-                //                                        onView:self.view
-                //                                          type:NYSTKAlertTypeDefault
-                //                                   emitterType:NYSTKEmitterAnimationTypeNone
-                //                                    themeModel:self.tintModel
-                //                        infoButtonClickedBlock:^{
-                //
-                //                } closeButtonClickedBlock:^{
-                //
-                //                }];
-               
+                NSString *string = @"￥21000.00/月\n";
+                NSMutableAttributedString *attribut = [[NSMutableAttributedString alloc] initWithString:string];
+                NSRange range = [string rangeOfString:@"/"];
+                [attribut setAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} range:[string rangeOfString:string]];
+                [attribut addAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:25]} range:NSMakeRange(0, range.location)];
+                
+                [attribut appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n出勤天数：20天"]];
+                [attribut appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n请假天数：1天"]];
+                [attribut appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n迟到天数：0天"]];
+                [attribut appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n..."]];
+
+                [NYSTKAlert showAlertWithTitle:@"工资条"
+                                       message:attribut
+                                     infoTitle:@"查看"
+                                    closeTitle:@"取消"
+                                        onView:self.view
+                                   emitterType:NYSTKEmitterAnimationTypeFireworks
+                                    themeModel:self.tintModel
+                        infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
             }
                 break;
                 
@@ -284,6 +372,22 @@
             default:
                 break;
         }
+        [[NYSTKConfig defaultConfig] clearDefaultValue];
+        
+    } else if (self.indexPath.section == 5) {
+        switch (self.indexPath.row) {
+            case 0: {
+                [NYSTKAlert showCustomView:self.contentView
+                                    onView:self.view
+                               emitterType:NYSTKEmitterAnimationTypeColourbar];
+            }
+                break;
+                
+            default:
+                break;
+        }
+        [[NYSTKConfig defaultConfig] clearDefaultValue];
+         
     } else {
         [NYSTKAlert showToastWithMessage:@"Undefined Object !" image:@"logo" themeModel:self.tintModel];
     }
@@ -363,6 +467,25 @@
     [attribut setAttributes:@{NSForegroundColorAttributeName:color} range:pointRange];
     
     return attribut;
+}
+
+- (BLCustomContentView *)contentView {
+    if (!_contentView) {
+        CGFloat scale = 375.0 / NYSTK_ScreenWidth;
+        CGFloat width = 320.0 * scale;
+        CGFloat height = 360.0 * scale;
+        _contentView = [[BLCustomContentView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+        [_contentView updateTitle:@"👋\nLorem" desc:loremString buttonTitle:@"Got it"];
+        _contentView.delegate = self;
+    }
+    return _contentView;
+}
+
+#pragma mark - BLCustomContentViewDelegate
+- (void)didClickedCloseButton:(UIButton *)button {
+    [NYSTKAlert dismissWithDelay:0.1 completion:^{
+        
+    }];
 }
 
 @end

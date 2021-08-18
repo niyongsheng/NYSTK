@@ -11,7 +11,6 @@
 
 #import <Foundation/Foundation.h>
 #import <Masonry/Masonry.h>
-#import <ReactiveObjC/ReactiveObjC.h>
 
 #define NYSTK_ScreenWidth           [[UIScreen mainScreen] bounds].size.width
 #define NYSTK_ScreenHeight          [[UIScreen mainScreen] bounds].size.height
@@ -37,9 +36,6 @@
 
 UIKIT_EXTERN const CGFloat NYSTKBackgroundAlpha;
 UIKIT_EXTERN const CGFloat NYSTKNormalSpace;
-
-UIKIT_EXTERN const CGFloat NYSTKBackgroundCornerRadius;
-UIKIT_EXTERN const CGFloat NYSTKAutoDismissDuration;
 UIKIT_EXTERN const CGFloat NYSTKEmitterAnimationDuration;
 
 UIKIT_EXTERN NSString *const NYSTKInfoText;

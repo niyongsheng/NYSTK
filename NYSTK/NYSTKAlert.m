@@ -19,10 +19,59 @@
 #import "NYSTKImageView.h"
 
 @interface NYSTKAlert ()
-
+/// 记录根视图
+@property (nonatomic) UIView *backgroundView;
 @end
 
 @implementation NYSTKAlert
+
++ (NYSTKAlert*)sharedView {
+    static dispatch_once_t once;
+    
+    static NYSTKAlert *sharedView;
+    dispatch_once(&once, ^{ sharedView = [[self alloc] initWithFrame:[[[UIApplication sharedApplication] delegate] window].bounds]; });
+    
+    return sharedView;
+}
+
+/// 关闭弹框
+/// @param delay 延时
+/// @param completion 完成回调
+- (void)dismissWithDelay:(NSTimeInterval)delay completion:(NYSTKAlertDismissCompletion)completion {
+    __weak NYSTKAlert *weakSelf = self;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        __strong NYSTKAlert *strongSelf = weakSelf;
+        if (strongSelf) {
+            
+            __block void (^completionBlock)(void) = ^{
+
+                if (self.backgroundView.alpha == 0.0f) {
+                    [strongSelf.backgroundView removeFromSuperview];
+                    [strongSelf removeFromSuperview];
+                    
+                    if (completion) {
+                        completion();
+                    }
+                }
+            };
+            
+            [UIView animateWithDuration:[NYSTKConfig defaultConfig].transformDuration delay:delay options:UIViewAnimationOptionCurveLinear animations:^{
+                strongSelf.backgroundView.alpha = 0;
+            } completion:^(BOOL finished) {
+                [strongSelf.backgroundView removeFromSuperview];
+                if (completion) {
+                    completion();
+                }
+            }];
+        }
+    }];
+}
+
+- (void)dealloc {
+    if (_backgroundView) {
+        self.backgroundView = nil;
+    }
+}
 
 #pragma mark - 配置默认设置
 + (void)setDefaultValue {
@@ -30,10 +79,12 @@
     [NYSTKConfig defaultConfig].contentTextColor = [NYSTKConfig defaultConfig].contentTextColor ? [NYSTKConfig defaultConfig].contentTextColor : [UIColor whiteColor];
     [NYSTKConfig defaultConfig].contentBgCornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius == 0 ? 7.0f : [NYSTKConfig defaultConfig].contentBgCornerRadius;
     
-    [NYSTKConfig defaultConfig].autoDismissDuration = [NYSTKConfig defaultConfig].autoDismissDuration == 0 ? 3.0f : [NYSTKConfig defaultConfig].autoDismissDuration;
+    [NYSTKConfig defaultConfig].autoDismissDuration = [NYSTKConfig defaultConfig].autoDismissDuration == 0 ? 5.0f : [NYSTKConfig defaultConfig].autoDismissDuration;
     
     [NYSTKConfig defaultConfig].tintColor = [NYSTKConfig defaultConfig].tintColor ? [NYSTKConfig defaultConfig].tintColor : NYSTKThemeColor;
     [NYSTKConfig defaultConfig].closeBtnImageName = [NYSTKConfig defaultConfig].closeBtnImageName ? [NYSTKConfig defaultConfig].closeBtnImageName : @"sign_out";
+    
+    [NYSTKConfig defaultConfig].transformDuration = [NYSTKConfig defaultConfig].transformDuration == 0 ? 0.25f : [NYSTKConfig defaultConfig].transformDuration;
 }
 
 #pragma mark - Toast弹框
@@ -80,10 +131,6 @@
                   themeModel:(NYSTKThemeModel)theme {
     [self setDefaultValue];
     
-    // bg view
-    UIView *bgView = [[UIView alloc] init];
-    [NYSTK_AppWindow addSubview:bgView];
-    bgView.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius;
     if (@available(iOS 13.0, *) && theme == NYSTKThemeModelAuto) {
         if ([UIApplication sharedApplication].keyWindow.overrideUserInterfaceStyle == UIUserInterfaceStyleDark) {
             theme = NYSTKThemeModelDark;
@@ -91,7 +138,14 @@
             theme = NYSTKThemeModelLight;
         }
     }
+    
+    // bg view
+    UIView *bgView = [[UIView alloc] init];
+    [NYSTKAlert sharedView].backgroundView = bgView;
     bgView.backgroundColor = (theme == NYSTKThemeModelLight) ? [[UIColor lightGrayColor] colorWithAlphaComponent:NYSTKBackgroundAlpha] : [[UIColor blackColor] colorWithAlphaComponent:NYSTKBackgroundAlpha];
+    [view addSubview:bgView];
+    bgView.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius;
+    bgView.clipsToBounds = YES;
     
     // image
     UIImage *image = [UIImage imageNamed:imageName];
@@ -130,11 +184,19 @@
         make.centerX.mas_equalTo(label.superview.mas_centerX);
         make.top.mas_equalTo(imageView.mas_bottom).mas_offset(10);
     }];
+    
+    // 动画效果
+    bgView.alpha = 0;
+    bgView.transform = CGAffineTransformScale(bgView.transform, 0.1, 0.1);
+    [UIView animateWithDuration:[NYSTKConfig defaultConfig].transformDuration delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+        bgView.alpha = 1.0;
+        bgView.transform = CGAffineTransformIdentity;
+    } completion:nil];
 
     // 自动移除toast
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)([NYSTKConfig defaultConfig].autoDismissDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:1.0f animations:^{
-            bgView.hidden = 0;
+        [UIView animateWithDuration:[NYSTKConfig defaultConfig].transformDuration animations:^{
+            bgView.transform = CGAffineTransformScale(bgView.transform, 0.1, 0.1);
         } completion:^(BOOL finished) {
             [bgView removeFromSuperview];
         }];
@@ -355,6 +417,7 @@
     
     // bg view
     UIImageView *bgImageView = [[UIImageView alloc] init];
+    [NYSTKAlert sharedView].backgroundView = bgImageView;
     bgImageView.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius;
     bgImageView.layer.masksToBounds = YES;
     switch (type) {
@@ -407,7 +470,7 @@
     }
     [bgImageView addSubview:label];
     label.numberOfLines = 0;
-    label.textAlignment = NSTextAlignmentCenter;
+    label.textAlignment = NSTextAlignmentLeft;
     label.font = [NYSTKConfig defaultConfig].contentFont;
     label.textColor = [NYSTKConfig defaultConfig].contentTextColor;
     
@@ -426,7 +489,7 @@
     [bgImageView addSubview:cancelButton];
 
     [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(bgImageView.mas_right).mas_offset(-10);
+        make.right.mas_equalTo(bgImageView.mas_right).mas_offset(-NYSTKNormalSpace);
         make.centerY.mas_equalTo(bgImageView);
         make.size.mas_equalTo(CGSizeMake(25, 25));
     }];
@@ -475,7 +538,7 @@
     
     // 设置label的约束
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(label.superview.mas_left).mas_offset(15);
+        make.left.mas_equalTo(label.superview.mas_left).mas_offset(NYSTKNormalSpace);
         make.right.mas_equalTo(label.superview.mas_right).mas_offset(-60);
         make.centerY.mas_equalTo(label.superview.mas_centerY);
     }];
@@ -604,6 +667,15 @@
     
     // 大背景
     UIView *bgView = [[UIView alloc] init];
+    [NYSTKAlert sharedView].backgroundView = bgView;
+    if ([NYSTKConfig defaultConfig].isHiddenCloseBtn) {
+        [UIView animateWithDuration:0.5f animations:^{
+            bgView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [bgView removeFromSuperview];
+        }];
+        closeButtonClickedBlock ? closeButtonClickedBlock() : nil;
+    }
     [view addSubview:bgView];
     bgView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7f];
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -611,6 +683,7 @@
     }];
     
     // 背景图片
+//    NSAssert(imageName || imageURL, @"imageURL和imageName不能同时为空");
     NYSTKImageView *bgImageView = [[NYSTKImageView alloc] init];
     bgImageView.contentMode = [NYSTKConfig defaultConfig].bgImageViewContentMode;
     bgImageView.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius;
@@ -621,9 +694,19 @@
         bgImageView.image = [UIImage imageNamed:imageName];
     } else if (!imageName && !imageURL) {
         bgImageView.image = [NSBundle nystk_imageForKey:@"sign_yellow_bg"];
-    } else {
-        
     }
+    
+    if ([NYSTKConfig defaultConfig].isHiddenInfoBtn) {
+        [bgImageView addTapGestureRecognizerWithDelegate:nil Block:^(NSInteger tag) {
+            [UIView animateWithDuration:0.5f animations:^{
+                bgView.alpha = 0;
+            } completion:^(BOOL finished) {
+                [bgView removeFromSuperview];
+            }];
+            infoButtonClickedBlock ? infoButtonClickedBlock() : nil;
+        }];
+    }
+    
     [bgView addSubview:bgImageView];
     [bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(bgView);
@@ -664,8 +747,13 @@
         }];
         infoButtonClickedBlock ? infoButtonClickedBlock() : nil;
     } withEvent:UIControlEventTouchUpInside];
+    [infoButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(bgView.mas_centerX).mas_offset([NYSTKConfig defaultConfig].offsetForInfoBtn.horizontal);
+        make.top.mas_equalTo(signLabel.mas_bottom).mas_offset([NYSTKConfig defaultConfig].offsetForInfoBtn.vertical);
+        make.size.mas_equalTo(CGSizeMake(85, 30));
+    }];
     
-    // 取消按钮
+    // 关闭按钮
     UIButton *cancelButton = [[UIButton alloc] init];
     cancelButton.hidden = [NYSTKConfig defaultConfig].isHiddenCloseBtn;
     [bgView addSubview:cancelButton];
@@ -683,6 +771,20 @@
         make.bottom.mas_equalTo(bgImageView.mas_top).mas_offset([NYSTKConfig defaultConfig].offsetForCloseBtn.vertical);
         make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
+  
+    // 动画效果
+    bgView.alpha = 0;
+    infoButton.alpha = 0;
+    cancelButton.alpha = 0;
+    bgImageView.alpha = 0;
+    bgImageView.transform = CGAffineTransformScale(bgImageView.transform, 0.5, 0.5);
+    [UIView animateWithDuration:[NYSTKConfig defaultConfig].transformDuration delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+        bgView.alpha = 1.0;
+        infoButton.alpha = 1.0;
+        cancelButton.alpha = 1.0;
+        bgImageView.alpha = 1.0;
+        bgImageView.transform = CGAffineTransformIdentity;
+    } completion:nil];
     
     // 粒子效果
     [NYSTKEmitterUtil showEmitterType:emitter onView:bgView durationTime:NYSTKEmitterAnimationDuration];
@@ -712,6 +814,7 @@
     
     [self showMessageWithTitle:title
                        message:message
+                     imageName:nil
                      infoTitle:infoTitle
                     closeTitle:closeTitle
                         onView:view
@@ -725,6 +828,7 @@
 /// 信息弹框
 /// @param title 标题
 /// @param message 信息
+/// @param imageName 自定义图片名
 /// @param infoTitle 详情按钮标题
 /// @param closeTitle 关闭按钮标题
 /// @param view 作用域
@@ -735,6 +839,7 @@
 /// @param closeButtonClickedBlock 关闭回调
 + (void)showMessageWithTitle:(NSString *)title
                      message:(NSAttributedString *)message
+                   imageName:(NSString *)imageName
                    infoTitle:(NSString *)infoTitle
                   closeTitle:(NSString *)closeTitle
                       onView:(UIView *)view
@@ -745,10 +850,16 @@
      closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock {
     [self setDefaultValue];
     
-    switch (messageType) {
-        case NYSTKMessageTypeDefault: {
-            
+    if (@available(iOS 13.0, *) && theme == NYSTKThemeModelAuto) {
+        if ([UIApplication sharedApplication].keyWindow.overrideUserInterfaceStyle == UIUserInterfaceStyleDark) {
+            theme = NYSTKThemeModelDark;
+        } else {
+            theme = NYSTKThemeModelLight;
         }
+    }
+    
+    switch (messageType) {
+        case NYSTKMessageTypeDefault:
             break;
             
         case NYSTKMessageTypeSuccess: {
@@ -772,28 +883,26 @@
     
     // 大背景
     UIView *bgView = [[UIView alloc] init];
+    [NYSTKAlert sharedView].backgroundView = bgView;
     [view addSubview:bgView];
     bgView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7f];
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
     
-    // 背景
+    // bgView
     UIView *bgContentView = [[UIView alloc] init];
-    bgContentView.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius;
     [bgView addSubview:bgContentView];
-    [bgContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(bgView);
-        make.centerY.mas_equalTo(bgView).mas_offset(10);
-        
-//        make.width.mas_equalTo(CGSizeMake(NYSTK_ScreenWidth * 0.75);
-//        make.bottom.mas_equalTo(cancelButton.mas_bottom).mas_offset(10);
-        make.size.mas_equalTo(CGSizeMake(NYSTK_ScreenWidth * 0.75, NYSTK_ScreenHeight * 0.45));
-    }];
+    bgContentView.clipsToBounds = YES;
+    bgContentView.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius;
+    bgContentView.backgroundColor = (theme == NYSTKThemeModelLight) ? [[UIColor whiteColor] colorWithAlphaComponent:NYSTKBackgroundAlpha] : [[UIColor blackColor] colorWithAlphaComponent:NYSTKBackgroundAlpha];
     
     // 图标
     UIImageView *iconImageView = [[UIImageView alloc] init];
-    UIImage *image = [[NSBundle nystk_imageForKey:@"alert_icon_bell"] nystk_imageByTintColor:[NYSTKConfig defaultConfig].tintColor];
+    UIImage *image = [[NSBundle nystk_imageForKey:@"alert_icon_bell_128x128"] nystk_imageByTintColor:[NYSTKConfig defaultConfig].tintColor];
+    if (imageName) {
+        image = [UIImage imageNamed:imageName];
+    }
     iconImageView.image = image;
     [bgContentView addSubview:iconImageView];
     [iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -805,7 +914,7 @@
     UILabel *titleLabel = [[UILabel alloc] init];
     [bgContentView addSubview:titleLabel];
     titleLabel.text = title;
-    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.textColor = [UIColor grayColor];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.font = [UIFont boldSystemFontOfSize:17];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -851,24 +960,24 @@
         if (!closeTitle) {
             make.centerX.mas_equalTo(bgContentView.mas_centerX);
         } else {
-            make.left.mas_equalTo(bgContentView.mas_left).mas_offset(2*NYSTKNormalSpace);
+            make.right.mas_equalTo(bgContentView.mas_centerX).mas_offset(-2*NYSTKNormalSpace);
         }
         make.top.mas_equalTo(messageLabel.mas_bottom).mas_offset(NYSTKNormalSpace);
         make.size.mas_equalTo(infoTitle ? CGSizeMake(70, 35) : CGSizeZero);
     }];
-    
+
     // 取消按钮
     UIButton *cancelButton = [[UIButton alloc] init];
     cancelButton.clipsToBounds = YES;
     cancelButton.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius * 0.75;
-    [cancelButton.layer setBorderWidth:1];
-    [cancelButton.layer setBorderColor:[NYSTKConfig defaultConfig].tintColor.CGColor];
+    cancelButton.layer.borderWidth = 1.0f;
+    cancelButton.layer.borderColor = [NYSTKConfig defaultConfig].tintColor.CGColor;
     [bgContentView addSubview:cancelButton];
-    
-    [cancelButton setTitleColor:[NYSTKConfig defaultConfig].tintColor forState:UIControlStateNormal];
+
     [cancelButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     [cancelButton setTitle:closeTitle forState:UIControlStateNormal];
-    [cancelButton setBackgroundImage:[UIColor whiteColor] forState:UIControlStateNormal];
+    [cancelButton setBackgroundColor:[UIColor clearColor]];
+    [cancelButton setTitleColor:[NYSTKConfig defaultConfig].tintColor forState:UIControlStateNormal];
     [cancelButton addTapBlock:^(id  _Nonnull obj) {
         [UIView animateWithDuration:0.5f animations:^{
             bgView.alpha = 0;
@@ -881,14 +990,68 @@
         if (!closeTitle) {
             make.centerX.mas_equalTo(bgContentView.mas_centerX);
         } else {
-            make.right.mas_equalTo(bgContentView.mas_right).mas_offset(-(2*NYSTKNormalSpace));
+            make.left.mas_equalTo(bgContentView.mas_centerX).mas_offset(2*NYSTKNormalSpace);
         }
         make.top.mas_equalTo(messageLabel.mas_bottom).mas_offset(NYSTKNormalSpace);
         make.size.mas_equalTo(cancelButton ? CGSizeMake(70, 35) : CGSizeZero);
     }];
     
+    [bgContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(bgView);
+        make.centerY.mas_equalTo(bgView);
+        
+        make.width.mas_equalTo(NYSTK_ScreenWidth * 0.75);
+        make.bottom.mas_equalTo(infoButton.mas_bottom).mas_offset(10);
+    }];
+    
+    // blurBg
+    if (![NYSTKConfig defaultConfig].isCloseBlurBg) {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:@available(iOS 13.0, *) ? UIBlurEffectStyleSystemChromeMaterialLight : UIBlurEffectStyleExtraLight];
+        if (theme == NYSTKThemeModelDark) {
+            blurEffect = @available(iOS 13.0, *) ? [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemChromeMaterialDark] : [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        }
+        UIVisualEffectView *visualView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        bgContentView.alpha = 0;
+        [bgContentView insertSubview:visualView atIndex:0];
+        
+        [visualView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(bgView);
+            make.centerY.mas_equalTo(bgView);
+            
+            make.width.mas_equalTo(NYSTK_ScreenWidth * 0.75);
+            make.bottom.mas_equalTo(infoButton.mas_bottom).mas_offset(10);
+        }];
+    }
+    
+    // 动画震动效果
+    bgView.alpha = 0;
+    bgContentView.alpha = 0;
+    bgContentView.transform = CGAffineTransformScale(bgContentView.transform, 0.7, 0.7);
+    [UIView animateWithDuration:[NYSTKConfig defaultConfig].transformDuration delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+        bgView.alpha = 1.0;
+        bgContentView.alpha = 1.0;
+        bgContentView.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        UIImpactFeedbackGenerator *feedBackGenertor = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
+        [NYSTKConfig defaultConfig].isCloseFeedback ? nil : [feedBackGenertor impactOccurred];
+        
+        CGFloat t = 2.0;
+        CGAffineTransform translateRight  = CGAffineTransformTranslate(CGAffineTransformIdentity, t,0.0);
+        CGAffineTransform translateLeft = CGAffineTransformTranslate(CGAffineTransformIdentity,-t,0.0);
+        iconImageView.transform = translateLeft;
+        CGFloat duration = [NYSTKConfig defaultConfig].transformDuration == 0 ? 0 : 0.07;
+        [UIView animateWithDuration:duration
+                              delay:0.1 options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
+                         animations:^{
+            [UIView setAnimationRepeatCount:2.0];
+            iconImageView.transform = translateRight;
+        } completion:^(BOOL finished) {
+            [NYSTKConfig defaultConfig].isCloseFeedback ? nil : [feedBackGenertor impactOccurred];
+        }];
+    }];
+    
     // 彩带效果
-//    [NYSTKEmitterUtil showEmitterType:emitter onView:bgView durationTime:NYSTKEmitterAnimationDuration];
+    [NYSTKEmitterUtil showEmitterType:emitter onView:bgView durationTime:NYSTKEmitterAnimationDuration];
 }
 
 #pragma mark - 提示弹框(取消/确定)
@@ -951,6 +1114,7 @@
     
     // 大背景
     UIView *bgView = [[UIView alloc] init];
+    [NYSTKAlert sharedView].backgroundView = bgView;
     [view addSubview:bgView];
     bgView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7f];
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -958,45 +1122,61 @@
     }];
     
     // bgView
-    UIView *whiteView = [[UIView alloc] init];
-    [bgView addSubview:whiteView];
-    whiteView.clipsToBounds = YES;
-    whiteView.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius;
-    whiteView.backgroundColor = (theme == NYSTKThemeModelLight) ? [[UIColor whiteColor] colorWithAlphaComponent:0.85f] : [[UIColor blackColor] colorWithAlphaComponent:NYSTKBackgroundAlpha];
-    [whiteView mas_makeConstraints:^(MASConstraintMaker *make) {
+    UIView *bgContentView = [[UIView alloc] init];
+    [bgView addSubview:bgContentView];
+    bgContentView.clipsToBounds = YES;
+    bgContentView.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius;
+    bgContentView.backgroundColor = (theme == NYSTKThemeModelLight) ? [[UIColor whiteColor] colorWithAlphaComponent:NYSTKBackgroundAlpha] : [[UIColor blackColor] colorWithAlphaComponent:NYSTKBackgroundAlpha];
+    [bgContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(255);
         make.center.mas_equalTo(bgView);
     }];
     
+    // blurBg
+    if (![NYSTKConfig defaultConfig].isCloseBlurBg) {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:@available(iOS 13.0, *) ? UIBlurEffectStyleSystemChromeMaterialLight : UIBlurEffectStyleExtraLight];
+        if (theme == NYSTKThemeModelDark) {
+            blurEffect = @available(iOS 13.0, *) ? [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemChromeMaterialDark] : [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        }
+        UIVisualEffectView *visualView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        bgContentView.alpha = 0;
+        [bgContentView insertSubview:visualView atIndex:0];
+    
+        [visualView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(255);
+            make.center.mas_equalTo(bgView);
+        }];
+    }
+    
     // 标题
     UILabel *titleLabel = [[UILabel alloc] init];
-    [whiteView addSubview:titleLabel];
+    [bgContentView addSubview:titleLabel];
     titleLabel.textColor = (theme == NYSTKThemeModelLight) ? [UIColor blackColor] : [UIColor whiteColor];
     titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.text = title;
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_offset(15);
+        make.top.mas_offset(NYSTKNormalSpace);
         make.left.right.mas_offset(0);
         make.height.mas_equalTo(17);
     }];
     
     // 提示信息
     UILabel *messageLabel = [[UILabel alloc] init];
-    [whiteView addSubview:messageLabel];
+    [bgContentView addSubview:messageLabel];
     messageLabel.attributedText = message;
     messageLabel.textAlignment = NSTextAlignmentCenter;
     messageLabel.numberOfLines = 0;
     [messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(whiteView).mas_offset(10);
-        make.right.mas_equalTo(whiteView).mas_offset(-10);
+        make.left.mas_equalTo(bgContentView).mas_offset(10);
+        make.right.mas_equalTo(bgContentView).mas_offset(-10);
         make.top.mas_equalTo(titleLabel.mas_bottom).mas_offset(15);
     }];
     
     // 取消按钮
     UIButton *cancelButton = [[UIButton alloc] init];
     cancelButton.hidden = [NYSTKConfig defaultConfig].isHiddenCloseBtn;
-    [whiteView addSubview:cancelButton];
+    [bgContentView addSubview:cancelButton];
     [cancelButton setTitle:closeTitle ? closeTitle : [NSBundle nystk_localizedStringForKey:NYSTKCancelText] forState:UIControlStateNormal];
     [cancelButton setTitleColor:[NYSTKConfig defaultConfig].tintColor forState:UIControlStateNormal];
     [cancelButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17]];
@@ -1009,16 +1189,16 @@
         closeButtonClickedBlock ? closeButtonClickedBlock() : nil;
     } withEvent:UIControlEventTouchUpInside];
     [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(whiteView);
+        make.left.mas_equalTo(bgContentView);
         make.top.mas_equalTo(messageLabel.mas_bottom).mas_offset(10);
-        make.right.mas_equalTo(whiteView.mas_centerX);
+        make.right.mas_equalTo(bgContentView.mas_centerX);
         make.height.mas_equalTo(43);
     }];
     
     // 详情按钮
     UIButton *infoButton = [[UIButton alloc] init];
     infoButton.hidden = [NYSTKConfig defaultConfig].isHiddenInfoBtn;
-    [whiteView addSubview:infoButton];
+    [bgContentView addSubview:infoButton];
     [infoButton setTitle:infoTitle ? infoTitle : [NSBundle nystk_localizedStringForKey:NYSTKInfoText] forState:UIControlStateNormal];
     [infoButton.titleLabel setFont:[UIFont boldSystemFontOfSize:17]];
     [infoButton setTitleColor:[NYSTKConfig defaultConfig].tintColor forState:UIControlStateNormal];
@@ -1033,12 +1213,12 @@
     [infoButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.width.top.mas_equalTo(cancelButton);
         make.left.mas_equalTo(cancelButton.mas_right);
-        make.bottom.mas_equalTo(whiteView);
+        make.bottom.mas_equalTo(bgContentView);
     }];
     
     // 横线灰色线
     UIView *grayLineView1 = [[UIView alloc] init];
-    [whiteView addSubview:grayLineView1];
+    [bgContentView addSubview:grayLineView1];
     grayLineView1.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2f];
     [grayLineView1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_offset(0);
@@ -1048,19 +1228,93 @@
     
     // 竖向灰色线
     UIView *grayLineView2 = [[UIView alloc] init];
-    [whiteView addSubview:grayLineView2];
+    [bgContentView addSubview:grayLineView2];
     grayLineView2.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2f];
     [grayLineView2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(grayLineView1.mas_bottom);
-        make.bottom.mas_equalTo(whiteView);
-        make.centerX.mas_equalTo(whiteView);
+        make.bottom.mas_equalTo(bgContentView);
+        make.centerX.mas_equalTo(bgContentView);
         make.width.mas_equalTo(1);
     }];
     
+    // 动画效果
+    bgView.alpha = 0;
+    bgContentView.alpha = 0;
+    bgContentView.transform = CGAffineTransformScale(bgContentView.transform, 0.9, 0.9);
+    [UIView animateWithDuration:[NYSTKConfig defaultConfig].transformDuration delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+        bgView.alpha = 1.0;
+        bgContentView.alpha = 1.0;
+        bgContentView.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+    }];
+    
     // 彩带效果
-    [NYSTKEmitterUtil showEmitterType:emitter onView:bgView durationTime:NYSTKEmitterAnimationDuration];
+    [NYSTKEmitterUtil showEmitterType:emitter onView:view durationTime:NYSTKEmitterAnimationDuration];
 }
 
 #pragma mark - 自定义View弹框
+
+/// 自定义View弹框
+/// @param customView 自定义view
+/// @param view 作用域
+/// @param emitter 粒子效果
++ (void)showCustomView:(UIView *)customView
+                onView:(UIView *)view
+           emitterType:(NYSTKEmitterAnimationType)emitter {
+    [self setDefaultValue];
+    
+    // 大背景
+    UIView *bgView = [[UIView alloc] init];
+    [NYSTKAlert sharedView].backgroundView = bgView;
+    [bgView addTapGestureRecognizerWithDelegate:nil Block:^(NSInteger tag) {
+        [UIView animateWithDuration:0.5f animations:^{
+            bgView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [bgView removeFromSuperview];
+        }];
+    }];
+    [view addSubview:bgView];
+    bgView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7f];
+    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
+    }];
+    
+    // 自定义view
+    [bgView addSubview:customView];
+    [customView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.mas_equalTo(bgView);
+        make.size.mas_equalTo(CGSizeMake(customView.bounds.size.width, customView.bounds.size.height));
+    }];
+  
+    // 动画效果
+    bgView.alpha = 0;
+    customView.alpha = 0;
+    customView.transform = CGAffineTransformScale(customView.transform, 0.5, 0.5);
+    [UIView animateWithDuration:[NYSTKConfig defaultConfig].transformDuration delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+        bgView.alpha = 1.0;
+        customView.alpha = 1.0;
+        customView.transform = CGAffineTransformIdentity;
+    } completion:nil];
+    
+    // 粒子效果
+    [NYSTKEmitterUtil showEmitterType:emitter onView:bgView durationTime:NYSTKEmitterAnimationDuration];
+}
+
+#pragma mark - 关闭弹框
++ (void)dismiss {
+    [[NYSTKAlert sharedView] dismissWithDelay:0 completion:nil];
+}
+
++ (void)dismissWithCompletion:(nullable NYSTKAlertDismissCompletion)completion {
+    [[NYSTKAlert sharedView] dismissWithDelay:0 completion:completion];
+}
+
++ (void)dismissWithDelay:(NSTimeInterval)delay {
+    [[NYSTKAlert sharedView] dismissWithDelay:delay completion:nil];
+}
+
++ (void)dismissWithDelay:(NSTimeInterval)delay completion:(nullable NYSTKAlertDismissCompletion)completion {
+    [[NYSTKAlert sharedView] dismissWithDelay:delay completion:completion];
+}
 
 @end

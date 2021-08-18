@@ -1,15 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "icon.jpeg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "img_alert_lingdang@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "img_alert_lingdang@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

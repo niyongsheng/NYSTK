@@ -6,6 +6,7 @@
 //
 
 #import "UIButton+NYSTK.h"
+#import "NYSTKConfig.h"
 #import <objc/runtime.h>
 
 static id key;
@@ -23,6 +24,9 @@ static id key;
     ClickActionBlock block = (ClickActionBlock)objc_getAssociatedObject(self, &key);
 
     if (block) {
+        UIImpactFeedbackGenerator *feedBackGenertor = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
+        [NYSTKConfig defaultConfig].isCloseFeedback ? nil : [feedBackGenertor impactOccurred];
+        
         block(sender);
     }
 }

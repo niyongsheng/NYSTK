@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "NYSTKEmitterUtil.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 typedef NS_ENUM(NSUInteger, NYSTKThemeModel) {
     NYSTKThemeModelLight,       // 浅色模式
     NYSTKThemeModelDark,        // 暗黑模式
@@ -42,10 +40,14 @@ typedef NS_ENUM(NSUInteger, NYSTKMessageType) {
     NYSTKMessageTypeWarning     // 警告
 };
 
+/// 消失回调block
+typedef void (^NYSTKAlertDismissCompletion)(void);
+
 @interface NYSTKAlert : UIView
 
-#pragma mark - Toast
 #pragma mark - Toast弹框
+
++ (NYSTKAlert*)sharedView;
 
 /// Toast弹框
 /// @param message 内容信息
@@ -254,6 +256,7 @@ closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
 /// 信息弹框
 /// @param title 标题
 /// @param message 信息
+/// @param imageName 自定义图片名
 /// @param infoTitle 详情按钮标题
 /// @param closeTitle 关闭按钮标题
 /// @param view 作用域
@@ -264,6 +267,7 @@ closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
 /// @param closeButtonClickedBlock 关闭回调
 + (void)showMessageWithTitle:(NSString *)title
                      message:(NSAttributedString *)message
+                   imageName:(NSString *)imageName
                    infoTitle:(NSString *)infoTitle
                   closeTitle:(NSString *)closeTitle
                       onView:(UIView *)view
@@ -311,14 +315,28 @@ closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
     infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
    closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
 
-/*------------------------ TODO -----------------------------*/
+
 #pragma mark - 自定义View弹框
+
+/// 自定义View弹框
+/// @param customView 自定义view
+/// @param view 作用域
+/// @param emitter 粒子效果
++ (void)showCustomView:(UIView *)customView
+                onView:(UIView *)view
+           emitterType:(NYSTKEmitterAnimationType)emitter;
 
 
 
 /// clear default
 + (void)clearDefaultValue;
 
-@end
++ (void)dismiss;
 
-NS_ASSUME_NONNULL_END
++ (void)dismissWithCompletion:(nullable NYSTKAlertDismissCompletion)completion;
+
++ (void)dismissWithDelay:(NSTimeInterval)delay;
+
++ (void)dismissWithDelay:(NSTimeInterval)delay completion:(nullable NYSTKAlertDismissCompletion)completion;
+
+@end

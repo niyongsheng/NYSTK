@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C81F34B326CCFF2D00493503 /* BLCustomContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = C81F34B226CCFF2D00493503 /* BLCustomContentView.m */; };
 		C8327B4D2501DC1C00842579 /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8327B4C2501DC1C00842579 /* DemoViewController.m */; };
 		C86D7C9A2502322100F88707 /* placeholder_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C86D7C982502322100F88707 /* placeholder_img@2x.png */; };
 		C86D7C9B2502322100F88707 /* placeholder_img@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C86D7C992502322100F88707 /* placeholder_img@3x.png */; };
@@ -130,6 +131,8 @@
 /* Begin PBXFileReference section */
 		1C51636A41B1F32417E10079 /* Pods-NYSTKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NYSTKDemo.debug.xcconfig"; path = "Target Support Files/Pods-NYSTKDemo/Pods-NYSTKDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		A36849F313B84F6FF77B1227 /* libPods-NYSTKDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NYSTKDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C81F34B126CCFF2D00493503 /* BLCustomContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLCustomContentView.h; sourceTree = "<group>"; };
+		C81F34B226CCFF2D00493503 /* BLCustomContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLCustomContentView.m; sourceTree = "<group>"; };
 		C8327B4B2501DC1C00842579 /* DemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoViewController.h; sourceTree = "<group>"; };
 		C8327B4C2501DC1C00842579 /* DemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoViewController.m; sourceTree = "<group>"; };
 		C86D7C982502322100F88707 /* placeholder_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder_img@2x.png"; sourceTree = "<group>"; };
@@ -267,6 +270,8 @@
 				C8DA09062500D4FC00B2B904 /* AppDelegate.m */,
 				C86D7C9C2502453000F88707 /* Model.h */,
 				C86D7C9D2502453000F88707 /* Model.m */,
+				C81F34B126CCFF2D00493503 /* BLCustomContentView.h */,
+				C81F34B226CCFF2D00493503 /* BLCustomContentView.m */,
 				C8DA090B2500D4FC00B2B904 /* ViewController.h */,
 				C8DA090C2500D4FC00B2B904 /* ViewController.m */,
 				C8327B4B2501DC1C00842579 /* DemoViewController.h */,
@@ -700,6 +705,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8DA090D2500D4FC00B2B904 /* ViewController.m in Sources */,
+				C81F34B326CCFF2D00493503 /* BLCustomContentView.m in Sources */,
 				C86D7C9E2502453000F88707 /* Model.m in Sources */,
 				C8DA09072500D4FC00B2B904 /* AppDelegate.m in Sources */,
 				C8327B4D2501DC1C00842579 /* DemoViewController.m in Sources */,

@@ -111,16 +111,36 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if ([indexPath isEqual:[NSIndexPath indexPathForRow:0 inSection:0]]) {
-        [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 350);
-        [NYSTKAlert showToastWithMessage:@"Toast Test !" themeModel:self.segmentedControl.selectedSegmentIndex];
-        [[NYSTKConfig defaultConfig] clearDefaultValue];
-        
-    } else if ([indexPath isEqual:[NSIndexPath indexPathForRow:1 inSection:0]]) {
-        [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 200);
-        [NYSTKAlert showToastWithMessage:@"Toast Image Test !"
-                                   image:@"logo"
-                              themeModel:self.segmentedControl.selectedSegmentIndex];
+    if (indexPath.section == 0) {
+        switch (indexPath.row) {
+            case 0: {
+                [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 350);
+                [NYSTKAlert showToastWithMessage:@"Toast Test !" themeModel:self.segmentedControl.selectedSegmentIndex];
+            }
+                break;
+                
+            case 1: {
+                [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 200);
+                [NYSTKAlert showToastWithMessage:@"Toast Image Test !"
+                                           image:@"logo"
+                                      themeModel:self.segmentedControl.selectedSegmentIndex];
+            }
+                break;
+                
+            case 2: {
+                
+            }
+                break;
+                
+            case 3: {
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
+
         [[NYSTKConfig defaultConfig] clearDefaultValue];
         
     } else {
@@ -168,29 +188,35 @@
 - (NSArray *)dataSource {
     if (_dataSource == nil) {
         Model *model_0 = [Model new];
-        model_0.header = @"Toast Demo";
-        model_0.detailTitles = @[@"simple toast", @"image toast"];
+        model_0.header = @"Simple Demo";
+        model_0.titles = @[@"Toast Demo1", @"Toast Demo2", @"Top Tips Demo1", @"Top Tips Demo2", @"Top Tips Demo3"];
+        model_0.detailTitles = @[@"simple toast", @"image toast", @"Success", @"Warning", @"Error"];
         
         Model *model_1 = [Model new];
-        model_1.header = @"Colorful Toast Demo";
-        model_1.detailTitles = @[@"default", @"up", @"down", @"left", @"right"];
+        model_1.header = @"Image Bar Demo";
+        model_1.detailTitles = @[@"default", @"up", @"down", @"left", @"right", @"custom"];
         
         Model *model_2 = [Model new];
-        model_2.header = @"Custom Image Demo";
-        model_2.titles = @[@"Sign-in Demo1", @"Sign-in Demo2", @"Custom Image Demo1", @"Custom Image Demo2"];
+        model_2.header = @"Image Alert Demo";
+        model_2.titles = @[@"Sign-in Demo", @"Sign-in Custom", @"Custom URL Image", @"Custom URL Image"];
         model_2.detailTitles = @[@"Colourbar", @"Custom image", @"URL image1", @"URL image2"];
         
         Model *model_3 = [Model new];
-        model_3.header = @"Message Demo";
-        model_3.titles = @[@"Success", @"Erroe", @"warning"];
-        model_3.detailTitles = @[@"Colourbar", @"Rain", @"Snow"];
+        model_3.header = @"Message Alert Demo";
+        model_3.titles = @[@"Custom", @"Success", @"Warning", @"Error"];
+        model_3.detailTitles = @[@"Default", @"Colourbar", @"Rain", @"Snow"];
         
         Model *model_4 = [Model new];
         model_4.header = @"Alert Demo";
         model_4.titles = @[@"Alert1", @"Alert2"];
         model_4.detailTitles = @[@"None", @"Colourbar"];
         
-        _dataSource = @[model_0, model_1, model_2, model_3, model_4];
+        Model *model_5 = [Model new];
+        model_5.header = @"Custom View Demo";
+        model_5.titles = @[@"Custom Style"];
+        model_5.detailTitles = @[@"None"];
+        
+        _dataSource = @[model_0, model_1, model_2, model_3, model_4, model_5];
     }
     return _dataSource;
 }

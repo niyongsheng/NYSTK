@@ -6,6 +6,7 @@
 //
 
 #import "UIView+NYSTK.h"
+#import "NYSTKConfig.h"
 #import <objc/runtime.h>
 
 @implementation UIView (NYSTK)
@@ -31,9 +32,10 @@
 - (void)tagClick {
     
     if (self.block) {
+        UIImpactFeedbackGenerator *feedBackGenertor = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
+        [NYSTKConfig defaultConfig].isCloseFeedback ? nil : [feedBackGenertor impactOccurred];
         
         self.block(self.tag);
-        
     }
     
 }

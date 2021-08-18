@@ -40,6 +40,11 @@ static NYSTKConfig *nystk_config = nil;
     self.closeBtnImageName = nil;
     
     self.bgImageViewContentMode = UIViewContentModeScaleToFill;
+    
+    self.transformDuration = 0.25f;
+    
+    self.isCloseBlurBg = NO;
+    self.isCloseFeedback = NO;
 }
 
 @end

@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) CGFloat contentBgCornerRadius;
 
 /// auto dismiss duration time.
-/// Default:1.0f
+/// Default:5.0f
 @property (assign, nonatomic) float autoDismissDuration;
 
 /// negative for left or up
@@ -51,12 +51,23 @@ NS_ASSUME_NONNULL_BEGIN
 /// Default:  NO
 @property (assign, nonatomic) BOOL isHiddenCloseBtn;
 
+/// Default:  NO
+@property (assign, nonatomic) BOOL isCloseBlurBg;
+
+/// 是否关闭震动反馈
+/// Default:  NO
+@property (assign, nonatomic) BOOL isCloseFeedback;
+
 @property(assign, nonatomic) UIViewContentMode bgImageViewContentMode;
 
 /// 弹框主题色
 @property (strong, nonatomic, nullable) UIColor *tintColor;
 
 @property (copy, nonatomic, nullable) NSString *closeBtnImageName;
+
+/// 关闭动画设置成：CGFLOAT_MIN
+/// Default:0.25f
+@property (assign, nonatomic) CGFloat transformDuration;
 
 #pragma mark - 清除默认设置
 - (void)clearDefaultValue;
