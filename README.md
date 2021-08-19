@@ -32,45 +32,31 @@ pod 'NYSTK'
 
 <table>
 <tr>
-<th>image bar</th>
-<th>sign default</th>
-<th>sign custom</th>
+<th>image-bar</th>
+<th>default</th>
+<th>custom</th>
+<th>simple</th>
+<th>animation</th>
+<th>image</th>
 </tr>
 <tr>
 <td><img width="70px" height="120px" src="https://niyongsheng.github.io/Document/NYSTK/image/image_bar_default.gif"/></td>
 <td><img width="70px" height="120px" src="https://niyongsheng.github.io/Document/NYSTK/image/sign_default.gif"/></td>
 <td><img width="70px" height="120px" src="https://niyongsheng.github.io/Document/NYSTK/image/sign_custom.gif"/></td>
-</tr>
-</table>
-
-<table>
-<tr>
-<th>simple toast light</th>
-<th>animation toast light</th>
-<th>warning toast light</th>
-<th>simple toast dark</th>
-<th>animation toast dark</th>
-<th>warning toast dark</th>
-</tr>
-<tr>
 <td><img width="70px" height="120px" src="https://niyongsheng.github.io/Document/NYSTK/toast/simple_toast_light.gif"/></td>
 <td><img width="70px" height="120px" src="https://niyongsheng.github.io/Document/NYSTK/toast/animation_toast_native_light.gif"/></td>
 <td><img width="70px" height="120px" src="https://niyongsheng.github.io/Document/NYSTK/toast/warning_toast_light.gif"/></td>
-<td><img width="70px" height="120px" src="https://niyongsheng.github.io/Document/NYSTK/toast/simple_toast_dark.gif"/></td>
-<td><img width="70px" height="120px" src="https://niyongsheng.github.io/Document/NYSTK/toast/animation_toast_native_dark.gif"/></td>
-<td><img width="70px" height="120px" src="https://niyongsheng.github.io/Document/NYSTK/toast/warning_toast_dark.gif"/></td>
 </tr>
 </table>
 
-
 <table>
 <tr>
-<th>colourbar message alert light</th>
-<th>rain message alert light</th>
-<th>snow message alert light</th>
-<th>colourbar message alert dark</th>
-<th>rain message alert dark</th>
-<th>snow message alert dark</th>
+<th>success light</th>
+<th>warning light</th>
+<th>error light</th>
+<th>success dark</th>
+<th>warning dark</th>
+<th>error dark</th>
 </tr>
 <tr>
 <td><img width="70px" height="120px" src="https://niyongsheng.github.io/Document/NYSTK/alert/colourbar_message_alert_light.gif"/></td>
@@ -153,16 +139,21 @@ NYSTK
 ```objc
 #import <NYSTK/NYSTK.h>
 
-NSString *toastMsg = @"Toast Test !";
+NSString *titleString = @"NYSTK test message ...";
 
-[NYSTKConfig defaultConfig].tintColor = [UIColor redColor];
-[NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 350);
-
-[NYSTKAlert showToastWithMessage:toastMsg themeModel:self.tintModel];
-[NYSTKAlert dismissWithDelay:1.5 completion:^{
+[NYSTKAlert showImageBarWithMessage:titleString
+                  attributedMessage:nil
+                              image:nil
+                                type:NYSTKColorfulToastTypeGreenStar
+                          direction:NYSTKComeInDirectionDefault
+                              onView:NYSTK_AppWindow
+                        emitterType:NYSTKEmitterAnimationTypeColourbar
+                          themeModel:NYSTKThemeModelAuto
+                          infoButtonClickedBlock:^{
+                    
+} closeButtonClickedBlock:^{
                     
 }];
-
 ``` 
 
 ## Remind
