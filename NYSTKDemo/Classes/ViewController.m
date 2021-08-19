@@ -111,50 +111,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 0) {
-        switch (indexPath.row) {
-            case 0: {
-                [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 350);
-                [NYSTKAlert showToastWithMessage:@"Toast Test !" themeModel:self.segmentedControl.selectedSegmentIndex];
-            }
-                break;
-                
-            case 1: {
-                [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 200);
-                [NYSTKAlert showToastWithMessage:@"Toast Image Test !"
-                                           image:@"logo"
-                                      themeModel:self.segmentedControl.selectedSegmentIndex];
-            }
-                break;
-                
-            case 2: {
-                
-            }
-                break;
-                
-            case 3: {
-                
-            }
-                break;
-                
-            default:
-                break;
-        }
-
-        [[NYSTKConfig defaultConfig] clearDefaultValue];
+    DemoViewController *demoVC = DemoViewController.new;
+    demoVC.indexPath = indexPath;
+    demoVC.tintModel = self.segmentedControl.selectedSegmentIndex;
+    demoVC.title = [self.dataSource[indexPath.section] detailTitles][indexPath.row];
+    
+    demoVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentViewController:demoVC animated:YES completion:^{
         
-    } else {
-        
-        DemoViewController *demoVC = DemoViewController.new;
-        demoVC.indexPath = indexPath;
-        demoVC.tintModel = self.segmentedControl.selectedSegmentIndex;
-        demoVC.title = [self.dataSource[indexPath.section] detailTitles][indexPath.row];
-        
-        demoVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self presentViewController:demoVC animated:YES completion:^{
-            
-        }];
-    }
+    }];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -188,33 +153,33 @@
 - (NSArray *)dataSource {
     if (_dataSource == nil) {
         Model *model_0 = [Model new];
-        model_0.header = @"Simple Demo";
-        model_0.titles = @[@"Toast Demo1", @"Toast Demo2", @"Top Tips Demo1", @"Top Tips Demo2", @"Top Tips Demo3"];
-        model_0.detailTitles = @[@"simple toast", @"image toast", @"Success", @"Warning", @"Error"];
+        model_0.header = @"Toast Demo";
+        model_0.titles = @[@"Toast Demo1", @"Toast Demo2", @"Toast Demo3", @"Toast Demo4", @"Toast message Demo1", @"Toast message Demo2", @"Toast message Demo3"];
+        model_0.detailTitles = @[@"Simple toast", @"Image toast", @"Animation toast image", @"Animation toast native", @"Success toast", @"Warning toast", @"Error toast"];
         
         Model *model_1 = [Model new];
         model_1.header = @"Image Bar Demo";
-        model_1.detailTitles = @[@"default", @"up", @"down", @"left", @"right", @"custom"];
+        model_1.detailTitles = @[@"image bar default", @"Image bar up", @"Image bar down", @"Image bar left", @"Image bar right", @"Image bar custom"];
         
         Model *model_2 = [Model new];
         model_2.header = @"Image Alert Demo";
         model_2.titles = @[@"Sign-in Demo", @"Sign-in Custom", @"Custom URL Image", @"Custom URL Image"];
-        model_2.detailTitles = @[@"Colourbar", @"Custom image", @"URL image1", @"URL image2"];
+        model_2.detailTitles = @[@"Colourbar sign toast", @"Custom image toast", @"URL image1 toast", @"URL image2 toast"];
         
         Model *model_3 = [Model new];
         model_3.header = @"Message Alert Demo";
         model_3.titles = @[@"Custom", @"Success", @"Warning", @"Error"];
-        model_3.detailTitles = @[@"Default", @"Colourbar", @"Rain", @"Snow"];
+        model_3.detailTitles = @[@"Custom message alert", @"Colourbar message alert", @"Rain message alert", @"Snow message alert"];
         
         Model *model_4 = [Model new];
         model_4.header = @"Alert Demo";
         model_4.titles = @[@"Alert1", @"Alert2"];
-        model_4.detailTitles = @[@"None", @"Colourbar"];
+        model_4.detailTitles = @[@"None alert", @"Colourbar alert"];
         
         Model *model_5 = [Model new];
         model_5.header = @"Custom View Demo";
         model_5.titles = @[@"Custom Style"];
-        model_5.detailTitles = @[@"None"];
+        model_5.detailTitles = @[@"Custom none"];
         
         _dataSource = @[model_0, model_1, model_2, model_3, model_4, model_5];
     }

@@ -75,6 +75,7 @@
 
 #pragma mark - 配置默认设置
 + (void)setDefaultValue {
+    
     [NYSTKConfig defaultConfig].contentFont = [NYSTKConfig defaultConfig].contentFont ? [NYSTKConfig defaultConfig].contentFont : [UIFont systemFontOfSize:15];
     [NYSTKConfig defaultConfig].contentTextColor = [NYSTKConfig defaultConfig].contentTextColor ? [NYSTKConfig defaultConfig].contentTextColor : [UIColor whiteColor];
     [NYSTKConfig defaultConfig].contentBgCornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius == 0 ? 7.0f : [NYSTKConfig defaultConfig].contentBgCornerRadius;
@@ -82,7 +83,7 @@
     [NYSTKConfig defaultConfig].autoDismissDuration = [NYSTKConfig defaultConfig].autoDismissDuration == 0 ? 5.0f : [NYSTKConfig defaultConfig].autoDismissDuration;
     
     [NYSTKConfig defaultConfig].tintColor = [NYSTKConfig defaultConfig].tintColor ? [NYSTKConfig defaultConfig].tintColor : NYSTKThemeColor;
-    [NYSTKConfig defaultConfig].closeBtnImageName = [NYSTKConfig defaultConfig].closeBtnImageName ? [NYSTKConfig defaultConfig].closeBtnImageName : @"sign_out";
+    [NYSTKConfig defaultConfig].closeBtnImageName = [NYSTKConfig defaultConfig].closeBtnImageName ? [NYSTKConfig defaultConfig].closeBtnImageName : @"alert_close_icon";
     
     [NYSTKConfig defaultConfig].transformDuration = [NYSTKConfig defaultConfig].transformDuration == 0 ? 0.25f : [NYSTKConfig defaultConfig].transformDuration;
 }
@@ -105,6 +106,8 @@
 + (void)showToastWithMessage:(NSString * _Nonnull)message themeModel:(NYSTKThemeModel)theme {
     [self showToastWithMessage:message
                          image:nil
+                   messageType:NYSTKMessageTypeDefault
+                 animationType:NYSTKAnimationTypeNone
                           view:NYSTK_AppWindow
                     themeModel:theme];
 }
@@ -116,17 +119,68 @@
 + (void)showToastWithMessage:(NSString * _Nonnull)message image:(NSString * _Nonnull)imageName themeModel:(NYSTKThemeModel)theme {
     [self showToastWithMessage:message
                          image:imageName
+                   messageType:NYSTKMessageTypeDefault
+                 animationType:NYSTKAnimationTypeNone
                           view:NYSTK_AppWindow
+                    themeModel:theme];
+}
+
+/// Toas成功/失败/警告弹框
+/// @param message 内容信息
+/// @param messageType 默认/成功/失败/警告
+/// @param theme 主题
++ (void)showToastWithMessage:(NSString * _Nonnull)message messageType:(NYSTKMessageType)messageType themeModel:(NYSTKThemeModel)theme {
+    [self showToastWithMessage:message
+                         image:nil
+                   messageType:messageType
+                 animationType:NYSTKAnimationTypeNone
+                          view:NYSTK_AppWindow
+                    themeModel:theme];
+}
+
+/// Toast动画弹框
+/// @param message 内容信息
+/// @param animationType 动画类型
+/// @param theme 主题
++ (void)showToastWithMessage:(NSString *)message
+               animationType:(NYSTKAnimationType)animationType
+                  themeModel:(NYSTKThemeModel)theme {
+    [self showToastWithMessage:message
+                         image:nil
+                   messageType:NYSTKMessageTypeDefault
+                 animationType:animationType
+                          view:NYSTK_AppWindow
+                    themeModel:theme];
+}
+
+/// Toast动画弹框
+/// @param message 内容信息
+/// @param animationType 动画类型
+/// @param view 作用域
+/// @param theme 主题
++ (void)showToastWithMessage:(NSString *)message
+               animationType:(NYSTKAnimationType)animationType
+                        view:(UIView * _Nonnull)view
+                  themeModel:(NYSTKThemeModel)theme {
+    [self showToastWithMessage:message
+                         image:nil
+                   messageType:NYSTKMessageTypeDefault
+                 animationType:animationType
+                          view:view
                     themeModel:theme];
 }
 
 /// Toast弹框
 /// @param message 内容信息
 /// @param imageName 自定义图片名
+/// @param messageType 默认/成功/失败/警告
+/// @param animationType 动画类型
 /// @param view 作用域
 /// @param theme 主题
-+ (void)showToastWithMessage:(NSString * _Nonnull)message
++ (void)showToastWithMessage:(NSString *)message
                        image:(NSString *)imageName
+                 messageType:(NYSTKMessageType)messageType
+               animationType:(NYSTKAnimationType)animationType
                         view:(UIView * _Nonnull)view
                   themeModel:(NYSTKThemeModel)theme {
     [self setDefaultValue];
@@ -142,16 +196,52 @@
     // bg view
     UIView *bgView = [[UIView alloc] init];
     [NYSTKAlert sharedView].backgroundView = bgView;
-    bgView.backgroundColor = (theme == NYSTKThemeModelLight) ? [[UIColor lightGrayColor] colorWithAlphaComponent:NYSTKBackgroundAlpha] : [[UIColor blackColor] colorWithAlphaComponent:NYSTKBackgroundAlpha];
+    if ([[NYSTKConfig defaultConfig].tintColor isEqual:NYSTKThemeColor]) {
+        bgView.backgroundColor = (theme == NYSTKThemeModelLight) ? [[UIColor lightGrayColor] colorWithAlphaComponent:NYSTKBackgroundAlpha] : [[UIColor blackColor] colorWithAlphaComponent:NYSTKBackgroundAlpha];
+    } else {
+        bgView.backgroundColor = [NYSTKConfig defaultConfig].tintColor;
+    }
     [view addSubview:bgView];
     bgView.layer.cornerRadius = [NYSTKConfig defaultConfig].contentBgCornerRadius;
     bgView.clipsToBounds = YES;
     
     // image
     UIImage *image = [UIImage imageNamed:imageName];
+    if (!imageName && animationType == NYSTKAnimationTypeImage) {
+        image = [NSBundle nystk_imageForKey:@"loadingcircleimage"];
+    }
+    switch (messageType) {
+        case NYSTKMessageTypeSuccess:
+            image = [NSBundle nystk_imageForKey:@"toast_success"];
+            break;
+            
+        case NYSTKMessageTypeWarning:
+            image = [NSBundle nystk_imageForKey:@"toast_warning"];
+            break;
+            
+        case NYSTKMessageTypeError:
+            image = [NSBundle nystk_imageForKey:@"toast_error"];
+            break;
+            
+        default:
+            break;
+    }
+    
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
     [bgView addSubview:imageView];
     
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    if (![[NYSTKConfig defaultConfig].tintColor isEqual:NYSTKThemeColor]) {
+        activityIndicator.color = [NYSTKConfig defaultConfig].tintColor;
+    }
+    if (animationType == NYSTKAnimationTypeNative) {
+        [bgView addSubview:activityIndicator];
+        [activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(imageView.superview.mas_centerX);
+            make.top.mas_equalTo(imageView.superview.mas_top).mas_offset(NYSTKNormalSpace);
+        }];
+    }
+
     // label
     UILabel *label = [[UILabel alloc] init];
     label.text = message;
@@ -175,14 +265,20 @@
     // 设置imageView的约束
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(imageView.superview.mas_centerX);
-        make.top.mas_equalTo(imageView.superview.mas_top).mas_offset(imageName ? 10 : 0);
-        make.size.mas_equalTo(imageName ? CGSizeMake(image.size.width, image.size.height) : CGSizeZero);
+        make.top.mas_equalTo(imageView.superview.mas_top).mas_offset(image ? NYSTKNormalSpace : 0);
+        make.size.mas_equalTo(image ? CGSizeMake(image.size.width, image.size.height) : CGSizeZero);
     }];
     
     // 设置label的约束
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(label.superview.mas_centerX);
-        make.top.mas_equalTo(imageView.mas_bottom).mas_offset(10);
+        if (animationType == NYSTKAnimationTypeNative) {
+            make.top.mas_equalTo(activityIndicator.mas_bottom).mas_offset(NYSTKNormalSpace);
+        } else if (animationType == NYSTKAnimationTypeImage || messageType != NYSTKMessageTypeDefault || imageName) {
+            make.top.mas_equalTo(imageView.mas_bottom).mas_offset(NYSTKNormalSpace);
+        } else {
+            make.top.mas_equalTo(label.superview.mas_top).mas_offset(NYSTKNormalSpace);
+        }
     }];
     
     // 动画效果
@@ -191,7 +287,19 @@
     [UIView animateWithDuration:[NYSTKConfig defaultConfig].transformDuration delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
         bgView.alpha = 1.0;
         bgView.transform = CGAffineTransformIdentity;
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        if (animationType == NYSTKAnimationTypeImage) {
+            CABasicAnimation *rotationAnimation;
+            rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+            rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
+            rotationAnimation.duration = 1;
+            rotationAnimation.cumulative = YES;
+            rotationAnimation.repeatCount = MAXFLOAT;
+            [imageView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+        } else if (animationType == NYSTKAnimationTypeNative) {
+            [activityIndicator startAnimating];
+        }
+    }];
 
     // 自动移除toast
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)([NYSTKConfig defaultConfig].autoDismissDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -202,7 +310,6 @@
         }];
     });
 }
-
 
 #pragma mark - 图片弹框条
 
@@ -221,7 +328,7 @@
           closeButtonClickedBlock:nil];
 }
 
-/// 图片弹框条
+/// 图片富文本弹框条
 /// @param attributedMessage 富文本信息
 + (void)showImageBarWithAttributedMessage:(NSAttributedString *)attributedMessage {
     [self showImageBarWithMessage:nil
@@ -236,7 +343,7 @@
           closeButtonClickedBlock:nil];
 }
 
-/// 图片弹框条
+/// 图片带回调弹框条
 /// @param message 内容信息
 /// @param view 作用域
 /// @param infoButtonClickedBlock 点击事件回调
@@ -255,7 +362,7 @@
           closeButtonClickedBlock:nil];
 }
 
-/// 图片弹框条
+/// 图片富文本带回调弹框条
 /// @param attributedMessage 富文本信息
 /// @param view 作用域
 /// @param infoButtonClickedBlock 点击事件回调
@@ -272,124 +379,6 @@
                        themeModel:NYSTKThemeModelAuto
            infoButtonClickedBlock:infoButtonClickedBlock
           closeButtonClickedBlock:nil];
-}
-
-/// 图片弹框条
-/// @param message 内容信息
-/// @param type 弹框类型
-/// @param view 作用域
-/// @param infoButtonClickedBlock 点击事件回调
-+ (void)showImageBarWithMessage:(NSString *)message
-                          image:(NSString *)imageName
-                         onView:(UIView *)view
-         infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock {
-    [self showImageBarWithMessage:message
-                attributedMessage:nil
-                            image:imageName
-                             type:NYSTKColorfulToastTypeCustom
-                        direction:NYSTKComeInDirectionDefault
-                           onView:view
-                      emitterType:NYSTKEmitterAnimationTypeNone
-                       themeModel:NYSTKThemeModelAuto
-           infoButtonClickedBlock:infoButtonClickedBlock
-          closeButtonClickedBlock:nil];
-}
-
-/// 图片弹框条
-/// @param attributedMessage 富文本信息
-/// @param imageName 自定义图片名
-/// @param view 作用域
-/// @param infoButtonClickedBlock 点击事件回调
-+ (void)showImageBarWithAttributedMessage:(NSAttributedString *)attributedMessage
-                                    image:(NSString *)imageName
-                                   onView:(UIView *)view
-                   infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock {
-    [self showImageBarWithMessage:nil
-                attributedMessage:attributedMessage
-                            image:imageName
-                             type:NYSTKColorfulToastTypeCustom
-                        direction:NYSTKComeInDirectionDefault
-                           onView:view
-                      emitterType:NYSTKEmitterAnimationTypeNone
-                       themeModel:NYSTKThemeModelAuto
-           infoButtonClickedBlock:infoButtonClickedBlock
-          closeButtonClickedBlock:nil];
-}
-
-/// 图片弹框条
-/// @param message 内容信息
-/// @param type 弹框类型
-/// @param view 作用域
-/// @param infoButtonClickedBlock 点击事件回调
-/// @param closeButtonClickedBlock 关闭事件回调
-+ (void)showImageBarWithMessage:(NSString *)message
-                           type:(NYSTKColorfulToastType)type
-                         onView:(UIView *)view
-         infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
-        closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock {
-    
-    [self showImageBarWithMessage:message
-                attributedMessage:nil
-                            image:nil
-                             type:type
-                        direction:NYSTKComeInDirectionDefault
-                           onView:view
-                      emitterType:NYSTKEmitterAnimationTypeNone
-                       themeModel:NYSTKThemeModelAuto
-           infoButtonClickedBlock:infoButtonClickedBlock
-          closeButtonClickedBlock:closeButtonClickedBlock];
-}
-
-/// 图片弹框条
-/// @param attributedMessage 富文本信息
-/// @param type 弹框类型
-/// @param view 作用域
-/// @param infoButtonClickedBlock 点击事件回调
-/// @param closeButtonClickedBlock 关闭事件回调
-+ (void)showImageBarWithAttributedMessage:(NSAttributedString *)attributedMessage
-                                     type:(NYSTKColorfulToastType)type
-                                   onView:(UIView *)view
-                   infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
-                  closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock {
-    
-    [self showImageBarWithMessage:nil
-                attributedMessage:attributedMessage
-                            image:nil
-                             type:type
-                        direction:NYSTKComeInDirectionDefault
-                           onView:view
-                       emitterType:NYSTKEmitterAnimationTypeNone
-                       themeModel:NYSTKThemeModelAuto
-           infoButtonClickedBlock:infoButtonClickedBlock
-          closeButtonClickedBlock:closeButtonClickedBlock];
-    
-}
-
-/// 图片弹框条
-/// @param message 内容信息
-/// @param type 弹框类型
-/// @param direction 进入方向
-/// @param view 作用域
-/// @param theme 主题
-/// @param infoButtonClickedBlock 点击事件回调
-/// @param closeButtonClickedBlock 关闭事件回调
-+ (void)showImageBarWithMessage:(NSString *)message
-                           type:(NYSTKColorfulToastType)type
-                      direction:(NYSTKComeInDirection)direction
-                         onView:(UIView *)view
-                     themeModel:(NYSTKThemeModel)theme
-         infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
-        closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock {
-    [self showImageBarWithMessage:message
-                attributedMessage:nil
-                            image:nil
-                             type:type
-                        direction:direction
-                           onView:view
-                       emitterType:NYSTKEmitterAnimationTypeNone
-                       themeModel:theme
-           infoButtonClickedBlock:infoButtonClickedBlock
-          closeButtonClickedBlock:closeButtonClickedBlock];
 }
 
 /// 图片弹框条
@@ -736,8 +725,8 @@
     [infoButton setTitle:[NSBundle nystk_localizedStringForKey:NYSTKInfoText] forState:UIControlStateNormal];
     infoButton.layer.cornerRadius = 6;
     infoButton.titleEdgeInsets = UIEdgeInsetsMake(0, -5, 0, 12);
-    [infoButton setImage:[NSBundle nystk_imageForKey:@"sign_exchange"] forState:UIControlStateNormal];
-    [infoButton setImage:[NSBundle nystk_imageForKey:@"sign_exchange"] forState:UIControlStateHighlighted];
+    [infoButton setImage:[NSBundle nystk_imageForKey:@"alert_exchange_icon"] forState:UIControlStateNormal];
+    [infoButton setImage:[NSBundle nystk_imageForKey:@"alert_exchange_icon"] forState:UIControlStateHighlighted];
     infoButton.imageEdgeInsets = UIEdgeInsetsMake(0, 71, 0, 0);
     [infoButton addTapBlock:^(id  _Nonnull obj) {
         [UIView animateWithDuration:0.5f animations:^{
@@ -818,7 +807,7 @@
                      infoTitle:infoTitle
                     closeTitle:closeTitle
                         onView:view
-                          type:NYSTKMessageTypeDefault
+                   messageType:NYSTKMessageTypeDefault
                    emitterType:emitter
                     themeModel:theme
         infoButtonClickedBlock:infoButtonClickedBlock
@@ -843,7 +832,7 @@
                    infoTitle:(NSString *)infoTitle
                   closeTitle:(NSString *)closeTitle
                       onView:(UIView *)view
-                        type:(NYSTKMessageType)messageType
+                 messageType:(NYSTKMessageType)messageType
                  emitterType:(NYSTKEmitterAnimationType)emitter
                   themeModel:(NYSTKThemeModel)theme
       infoButtonClickedBlock:(void(^)(void))infoButtonClickedBlock
@@ -872,7 +861,7 @@
         }
             break;
             
-        case NYSTKMessageTypeEror: {
+        case NYSTKMessageTypeError: {
             [NYSTKConfig defaultConfig].tintColor = [UIColor colorWithRed:0.95 green:0.20 blue:0.25 alpha:1.00];
         }
             break;

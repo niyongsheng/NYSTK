@@ -14,6 +14,7 @@
 #define ImageURL2 @"http://anjufile.qmook.com/aaaaaaa/0a/79b2d4c6305e4c1712fd67a8753bf5.png"
 #define ImageURL3 @"https://s1.ax1x.com/2020/09/07/wn4l6J.png"
 
+static NSString *titleString = @"NYSTK Test test tes te ...";
 static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 @interface DemoViewController () <BLCustomContentViewDelegate>
@@ -43,7 +44,7 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
     [self.view addSubview:self.titleLabel];
     
     NYSTK_WS(weakSelf);
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [weakSelf showAlert];
     });
 }
@@ -51,10 +52,73 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
 - (void)showAlert {
     if (self.indexPath.section == 0) {
         
+        NSString *toastMsg = @"Toast Image Test !";
+        switch (self.indexPath.row) {
+            case 0: {
+                [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 350);
+                [NYSTKAlert showToastWithMessage:toastMsg themeModel:self.tintModel];
+                [NYSTKAlert dismissWithDelay:1.5 completion:^{
+                    
+                }];
+            }
+                break;
+                
+            case 1: {
+                [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 200);
+                [NYSTKAlert showToastWithMessage:toastMsg
+                                           image:@"logo"
+                                      themeModel:self.tintModel];
+            }
+                break;
+                
+            case 2: {
+                [NYSTKAlert showToastWithMessage:toastMsg
+                                            animationType:NYSTKAnimationTypeImage
+                                      themeModel:self.tintModel];
+            }
+                break;
+                
+            case 3: {
+                [NYSTKAlert showToastWithMessage:toastMsg
+                                            animationType:NYSTKAnimationTypeNative
+                                      themeModel:self.tintModel];
+                
+            }
+                break;
+                
+            case 4: {
+                [NYSTKAlert showToastWithMessage:toastMsg
+                                     messageType:NYSTKMessageTypeSuccess
+                                      themeModel:self.tintModel];
+                
+            }
+                break;
+                
+            case 5: {
+                [NYSTKAlert showToastWithMessage:toastMsg
+                                     messageType:NYSTKMessageTypeWarning
+                                      themeModel:self.tintModel];
+                
+            }
+                break;
+                
+            case 6: {
+                [NYSTKAlert showToastWithMessage:toastMsg
+                                     messageType:NYSTKMessageTypeError
+                                      themeModel:self.tintModel];
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
+
+        [[NYSTKConfig defaultConfig] clearDefaultValue];
     } else if (self.indexPath.section == 1) {
         switch (self.indexPath.row) {
             case 0: {
-                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
+                [NYSTKAlert showImageBarWithMessage:titleString
                                   attributedMessage:nil
                                               image:nil
                                                type:NYSTKColorfulToastTypeGreenStar
@@ -72,10 +136,13 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                 
             case 1: {
                 [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 20);
-                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ... NYSTK Test test tes te ..."
+                [NYSTKAlert showImageBarWithMessage:titleString
+                                  attributedMessage:nil
+                                              image:nil
                                                type:NYSTKColorfulToastTypeBlueHand
                                           direction:NYSTKComeInDirectionUp
                                              onView:self.view
+                                        emitterType:NYSTKEmitterAnimationTypeNone
                                          themeModel:self.tintModel
                              infoButtonClickedBlock:^{
                     
@@ -87,10 +154,13 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                 
             case 2: {
                 [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, -20);
-                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
+                [NYSTKAlert showImageBarWithMessage:titleString
+                                  attributedMessage:nil
+                                              image:nil
                                                type:NYSTKColorfulToastTypeGreenBook
                                           direction:NYSTKComeInDirectionDown
                                              onView:self.view
+                                        emitterType:NYSTKEmitterAnimationTypeNone
                                          themeModel:self.tintModel
                              infoButtonClickedBlock:^{
                     
@@ -101,10 +171,13 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                 break;
                 
             case 3: {
-                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
+                [NYSTKAlert showImageBarWithMessage:titleString
+                                  attributedMessage:nil
+                                              image:nil
                                                type:NYSTKColorfulToastTypeYellowCat
                                           direction:NYSTKComeInDirectionLeft
                                              onView:self.view
+                                        emitterType:NYSTKEmitterAnimationTypeNone
                                          themeModel:self.tintModel
                              infoButtonClickedBlock:^{
                     
@@ -115,10 +188,13 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                 break;
                 
             case 4: {
-                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te ..."
+                [NYSTKAlert showImageBarWithMessage:titleString
+                                  attributedMessage:nil
+                                              image:nil
                                                type:NYSTKColorfulToastTypeBlueFlower
                                           direction:NYSTKComeInDirectionRight
                                              onView:self.view
+                                        emitterType:NYSTKEmitterAnimationTypeNone
                                          themeModel:self.tintModel
                              infoButtonClickedBlock:^{
                     
@@ -129,8 +205,8 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                 break;
                 
             case 5: {
-                [NYSTKAlert showImageBarWithMessage:@"NYSTK Test test tes te t e ..."
-                                  attributedMessage:nil
+                [NYSTKAlert showImageBarWithMessage:nil
+                                  attributedMessage:[self getMessageAttribute:titleString type:NYSTKMessageTypeSuccess]
                                               image:@"custom_icon_image_bar"
                                                type:NYSTKColorfulToastTypeCustom
                                           direction:NYSTKComeInDirectionDefault
@@ -248,7 +324,7 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                                        infoTitle:@"I know"
                                       closeTitle:nil
                                           onView:self.view
-                                            type:NYSTKMessageTypeDefault
+                                     messageType:NYSTKMessageTypeDefault
                                      emitterType:NYSTKEmitterAnimationTypeNone
                                       themeModel:self.tintModel
                           infoButtonClickedBlock:^{
@@ -266,7 +342,7 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                                        infoTitle:@"好的"
                                       closeTitle:@"取消"
                                           onView:self.view
-                                            type:NYSTKMessageTypeSuccess
+                                     messageType:NYSTKMessageTypeSuccess
                                      emitterType:NYSTKEmitterAnimationTypeColourbar
                                       themeModel:self.tintModel
                           infoButtonClickedBlock:^{
@@ -284,7 +360,7 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                                        infoTitle:@"好的"
                                       closeTitle:@"取消"
                                           onView:self.view
-                                            type:NYSTKMessageTypeWarning
+                                     messageType:NYSTKMessageTypeWarning
                                      emitterType:NYSTKEmitterAnimationTypeRain
                                       themeModel:self.tintModel
                           infoButtonClickedBlock:^{
@@ -302,7 +378,7 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                                        infoTitle:@"好的"
                                       closeTitle:@"取消"
                                           onView:self.view
-                                            type:NYSTKMessageTypeEror
+                                     messageType:NYSTKMessageTypeError
                                      emitterType:NYSTKEmitterAnimationTypeSnow
                                       themeModel:self.tintModel
                           infoButtonClickedBlock:^{
@@ -344,10 +420,10 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                 [attribut setAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} range:[string rangeOfString:string]];
                 [attribut addAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:25]} range:NSMakeRange(0, range.location)];
                 
-                [attribut appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n出勤天数：20天"]];
-                [attribut appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n请假天数：1天"]];
-                [attribut appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n迟到天数：0天"]];
-                [attribut appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n..."]];
+                [attribut appendAttributedString:[self getMessageAttribute:@"\n出勤天数: 20天" type:NYSTKMessageTypeSuccess]];
+                [attribut appendAttributedString:[self getMessageAttribute:@"\n请假天数: 1天" type:NYSTKMessageTypeWarning]];
+                [attribut appendAttributedString:[self getMessageAttribute:@"\n迟到天数: 0天" type:NYSTKMessageTypeError]];
+                [attribut appendAttributedString:[self getMessageAttribute:@"\n... 天" type:NYSTKMessageTypeDefault]];
 
                 [NYSTKAlert showAlertWithTitle:@"工资条"
                                        message:attribut
@@ -417,7 +493,8 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
 
 - (UIVisualEffectView *)effectView {
     if (!_effectView) {
-        UIBlurEffect *effect = self.tintModel == 0 ? [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular] : [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+//        UIBlurEffect *effect = self.tintModel == 0 ? [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular] : [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
         _effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
         _effectView.frame = CGRectMake(0, 0, NYSTK_ScreenWidth, NYSTK_ScreenHeight);
     }
@@ -450,15 +527,16 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
     UIColor *color = nil;
     if (type == NYSTKMessageTypeSuccess) {
         color = [UIColor colorWithRed:0.21 green:0.71 blue:0.45 alpha:1.00];
-    } else if (type == NYSTKMessageTypeEror) {
+    } else if (type == NYSTKMessageTypeError) {
         color = [UIColor colorWithRed:0.94 green:0.17 blue:0.22 alpha:1.00];
     } else if (type == NYSTKMessageTypeWarning) {
         color = [UIColor colorWithRed:0.98 green:0.51 blue:0.21 alpha:1.00];
     } else {
-        color = [UIColor blackColor];
+        color = [UIColor darkGrayColor];
     }
     
     NSMutableAttributedString *attribut = [[NSMutableAttributedString alloc] initWithString:string];
+    [attribut setAttributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]} range:[string rangeOfString:string]];
     NSRange range = [string rangeOfString:@" "];
     NSRange pointRange = NSMakeRange(0, range.location);
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
@@ -475,7 +553,7 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
         CGFloat width = 320.0 * scale;
         CGFloat height = 360.0 * scale;
         _contentView = [[BLCustomContentView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-        [_contentView updateTitle:@"👋\nLorem" desc:loremString buttonTitle:@"Got it"];
+        [_contentView updateTitle:@"🎯\nLorem" desc:loremString buttonTitle:@"Got it"];
         _contentView.delegate = self;
     }
     return _contentView;

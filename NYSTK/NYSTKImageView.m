@@ -43,7 +43,7 @@
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     if (error) {
-        NSLog(@"network error:%@", error.description);
+        NSLog(@"NYSTK Network Error:%@", error.description);
     } else {
         session = nil;
         [self setImage:[UIImage imageWithData:_mData]];

@@ -3,8 +3,4 @@ inhibit_all_warnings!
 source 'https://github.com/CocoaPods/Specs.git'
 target 'NYSTKDemo' do
   pod 'NYSTK', :path => '../../NYSTK'
-  pod 'FFPopup'
-#  pod 'ReactiveObjC'
-#  pod 'Masonry'
-  pod 'SVProgressHUD'
 end
