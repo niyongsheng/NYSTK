@@ -52,7 +52,7 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
 - (void)showAlert {
     if (self.indexPath.section == 0) {
         
-        NSString *toastMsg = @"Toast Image Test !";
+        NSString *toastMsg = @"Toast Message Test !";
         switch (self.indexPath.row) {
             case 0: {
                 [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 350);
