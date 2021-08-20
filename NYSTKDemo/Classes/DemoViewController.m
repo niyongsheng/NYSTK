@@ -119,17 +119,9 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
         switch (self.indexPath.row) {
             case 0: {
                 [NYSTKAlert showImageBarWithMessage:titleString
-                                  attributedMessage:nil
-                                              image:nil
-                                               type:NYSTKColorfulToastTypeGreenStar
-                                          direction:NYSTKComeInDirectionDefault
                                              onView:self.view
-                                        emitterType:NYSTKEmitterAnimationTypeColourbar
-                                         themeModel:self.tintModel
                              infoButtonClickedBlock:^{
-
-                } closeButtonClickedBlock:^{
-
+                    
                 }];
             }
                 break;
@@ -174,7 +166,7 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                 [NYSTKAlert showImageBarWithMessage:titleString
                                   attributedMessage:nil
                                               image:nil
-                                               type:NYSTKColorfulToastTypeYellowCat
+                                               type:NYSTKColorfulToastTypeGreenStar
                                           direction:NYSTKComeInDirectionLeft
                                              onView:self.view
                                         emitterType:NYSTKEmitterAnimationTypeNone

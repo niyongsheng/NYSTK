@@ -429,7 +429,13 @@
         default:
             break;
     }
-    [view addTapGestureRecognizerWithDelegate:nil Block:^(NSInteger tag) {
+    
+    [bgImageView addTapGestureRecognizerWithDelegate:nil Block:^(NSInteger tag) {
+        [UIView animateWithDuration:0.5f animations:^{
+            bgImageView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [bgImageView removeFromSuperview];
+        }];
         infoButtonClickedBlock ? infoButtonClickedBlock() : nil;
     }];
     [view addSubview:bgImageView];
@@ -551,7 +557,7 @@
         }
     }];
     
-    [UIView animateWithDuration:0.77 delay:0.0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+    [UIView animateWithDuration:[NYSTKConfig defaultConfig].transformDuration delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
         [bgImageView.superview layoutIfNeeded];
     } completion:^(BOOL finished) {
         // 自动移除toast
@@ -1236,12 +1242,10 @@
     // 大背景
     UIView *bgView = [[UIView alloc] init];
     [NYSTKAlert sharedView].backgroundView = bgView;
+    __weak NYSTKAlert *weakSelf = self;
     [bgView addTapGestureRecognizerWithDelegate:nil Block:^(NSInteger tag) {
-        [UIView animateWithDuration:0.5f animations:^{
-            bgView.alpha = 0;
-        } completion:^(BOOL finished) {
-            [bgView removeFromSuperview];
-        }];
+        __strong NYSTKAlert *strongSelf = weakSelf;
+        [weakSelf dismissWithDelay:0 completion:nil];
     }];
     [view addSubview:bgView];
     bgView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:[NYSTKConfig defaultConfig].backgroundAlphaComponent];
@@ -1279,7 +1283,7 @@
 
 /// 关闭弹框
 /// @param completion 关闭后回调
-+ (void)dismissWithCompletion:(nullable NYSTKAlertDismissCompletion)completion {
++ (void)dismissWithCompletion:(NYSTKAlertDismissCompletion)completion {
     [[NYSTKAlert sharedView] dismissWithDelay:0 completion:completion];
 }
 
@@ -1292,7 +1296,7 @@
 /// 关闭弹框
 /// @param delay 延时
 /// @param completion 关闭后回调
-+ (void)dismissWithDelay:(NSTimeInterval)delay completion:(nullable NYSTKAlertDismissCompletion)completion {
++ (void)dismissWithDelay:(NSTimeInterval)delay completion:(NYSTKAlertDismissCompletion)completion {
     [[NYSTKAlert sharedView] dismissWithDelay:delay completion:completion];
 }
 

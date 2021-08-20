@@ -302,7 +302,7 @@ closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
 
 /// 关闭弹框
 /// @param completion 关闭后回调
-+ (void)dismissWithCompletion:(nullable NYSTKAlertDismissCompletion)completion;
++ (void)dismissWithCompletion:(NYSTKAlertDismissCompletion)completion;
 
 /// 关闭弹框
 /// @param delay 延时
@@ -311,7 +311,7 @@ closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
 /// 关闭弹框
 /// @param delay 延时
 /// @param completion 关闭后回调
-+ (void)dismissWithDelay:(NSTimeInterval)delay completion:(nullable NYSTKAlertDismissCompletion)completion;
++ (void)dismissWithDelay:(NSTimeInterval)delay completion:(NYSTKAlertDismissCompletion)completion;
 
 #pragma mark - 重置默认值
 + (void)clearDefaultValue;
