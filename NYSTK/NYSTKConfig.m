@@ -71,7 +71,7 @@ static NYSTKConfig *nystk_config = nil;
 }
 
 - (NSString *)closeBtnImageName {
-    if (_closeBtnImageName) {
+    if (!_closeBtnImageName) {
         _closeBtnImageName = @"alert_close_icon";
     }
     return _closeBtnImageName;
@@ -91,18 +91,18 @@ static NYSTKConfig *nystk_config = nil;
     return _backgroundAlphaComponent;
 }
 
-- (float)autoDismissDuration {
-    if (_autoDismissDuration == 0) {
-        _autoDismissDuration = 5.0f;
-    }
-    return _autoDismissDuration;
-}
-
 - (CGFloat)transformDuration {
     if (_transformDuration == 0) {
         _transformDuration = 0.25f;
     }
     return _transformDuration;
+}
+
+- (float)autoDismissDuration {
+    if (_autoDismissDuration == 0) {
+        _autoDismissDuration = 5.0f;
+    }
+    return _autoDismissDuration;
 }
 
 @end
