@@ -173,8 +173,8 @@
         
         Model *model_4 = [Model new];
         model_4.header = @"Alert Demo";
-        model_4.titles = @[@"Alert1", @"Alert2"];
-        model_4.detailTitles = @[@"None alert", @"Colourbar alert"];
+        model_4.titles = @[@"Alert1", @"Alert2", @"Alert3"];
+        model_4.detailTitles = @[@"None alert", @"Text alert", @"Colourbar alert"];
         
         Model *model_5 = [Model new];
         model_5.header = @"Custom View Demo";

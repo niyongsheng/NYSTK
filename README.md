@@ -11,6 +11,9 @@ NYSTK
   <a href="LICENSE">
     <img src="https://img.shields.io/cocoapods/l/NYSTK.svg" alt="MIT License">
   </a>
+  <a href="https://github.com/niyongsheng/NYSTK/issues">
+     <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="Issues">
+  </a>
 </p>
 
 > ios 自定义弹框库 <br>
@@ -68,42 +71,41 @@ pod 'NYSTK'
 </tr>
 </table>
 
+## Features
+- [x] Config
+- [x] Effect
+- [x] Feedback
+- [x] Animation
+- [ ] Documentation
+
+## Example:
+- Objective-C
+
+```objc
+#import <NYSTK/NYSTK.h>
+
+NSString *string = @"NYSTK test msg ...";
+
+[NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, -100);
+[NYSTKConfig defaultConfig].contentFont = [UIFont boldSystemFontOfSize:20.0f];
+
+[NYSTKAlert showImageBarWithMessage:string
+                             onView:NYSTK_AppWindow
+             infoButtonClickedBlock:^{
+                    
+}];
+``` 
 
 ## Summary:
-```text
+```
 NYSTK
 ├─ NSBundle+NYSTK.h
 ├─ NSBundle+NYSTK.m
 ├─ NYSTK.bundle
+│    ├─ images
 │    ├─ Info.plist
-│    ├─ alert_close_icon@2x.png
-│    ├─ alert_exchange_icon@2x.png
-│    ├─ alert_icon_bell_128x128@2x.png
-│    ├─ colourbar_1@2x.png
-│    ├─ colourbar_2@2x.png
-│    ├─ colourbar_3@2x.png
-│    ├─ colourbar_4@2x.png
-│    ├─ colourbar_5@2x.png
-│    ├─ colourbar_6@2x.png
-│    ├─ colourbar_7@2x.png
-│    ├─ colourbar_8@2x.png
 │    ├─ en.lproj
 │    │    └─ Localizable.strings
-│    ├─ fireworks.png
-│    ├─ group_banner_0_375x80_@2x.png
-│    ├─ group_banner_1_375x80_@2x.png
-│    ├─ group_banner_2_375x80_@2x.png
-│    ├─ group_banner_3_375x80_@2x.png
-│    ├─ group_banner_4_375x80_@2x.png
-│    ├─ group_banner_5_375x80_@2x.png
-│    ├─ loadingcircleimage@2x.png
-│    ├─ placeholder_img@2x.png
-│    ├─ rain.png
-│    ├─ sign_yellow_bg@2x.png
-│    ├─ snow.png
-│    ├─ toast_error@2x.png
-│    ├─ toast_success@2x.png
-│    ├─ toast_warning@2x.png
 │    ├─ zh-Hans.lproj
 │    │    └─ Localizable.strings
 │    └─ zh-Hant.lproj
@@ -128,34 +130,6 @@ NYSTK
 ├─ UIView+NYSTK.h
 └─ UIView+NYSTK.m
 ```
-
-## APIs:
-[NYSTKConfig.h](https://github.com/niyongsheng/NYSTK/blob/master/NYSTK/NYSTKConfig.h)
-<br>
-[NYSTKAlert.h](https://github.com/niyongsheng/NYSTK/blob/master/NYSTK/NYSTKAlert.h)
-
-- Objective-C
-
-```objc
-#import <NYSTK/NYSTK.h>
-
-NSString *titleString = @"NYSTK test message ...";
-
-[NYSTKAlert showImageBarWithMessage:titleString
-                  attributedMessage:nil
-                              image:nil
-                                type:NYSTKColorfulToastTypeGreenStar
-                          direction:NYSTKComeInDirectionDefault
-                              onView:NYSTK_AppWindow
-                        emitterType:NYSTKEmitterAnimationTypeColourbar
-                          themeModel:NYSTKThemeModelAuto
-                          infoButtonClickedBlock:^{
-                    
-} closeButtonClickedBlock:^{
-                    
-}];
-``` 
-
 ## Remind
 - [x] ARC
 - [x] iOS >= 10.0

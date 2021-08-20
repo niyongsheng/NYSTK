@@ -8,8 +8,8 @@
 
 #import "NYSTKConst.h"
 
-const CGFloat NYSTKBackgroundAlpha = 0.85;
 const CGFloat NYSTKNormalSpace = 10.0;
+const CGFloat NYSTKContentBgAlpha = 0.85;
 const CGFloat NYSTKEmitterAnimationDuration = 1.25;
 
 NSString *const NYSTKInfoText = @"NYSTKInfoText";

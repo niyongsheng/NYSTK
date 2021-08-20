@@ -13,6 +13,7 @@
 #define ImageURL1 @"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2775010751,3989798890&fm=26&gp=0.jpg"
 #define ImageURL2 @"http://anjufile.qmook.com/aaaaaaa/0a/79b2d4c6305e4c1712fd67a8753bf5.png"
 #define ImageURL3 @"https://s1.ax1x.com/2020/09/07/wn4l6J.png"
+#define DelayTime 2.5f
 
 static NSString *titleString = @"NYSTK Test test tes te ...";
 static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
@@ -50,6 +51,9 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
 }
 
 - (void)showAlert {
+    // 清空默认样式
+    [NYSTKAlert clearDefaultValue];
+    
     if (self.indexPath.section == 0) {
         
         NSString *toastMsg = @"Toast Message Test !";
@@ -57,9 +61,6 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
             case 0: {
                 [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, 350);
                 [NYSTKAlert showToastWithMessage:toastMsg themeModel:self.tintModel];
-                [NYSTKAlert dismissWithDelay:1.5 completion:^{
-                    
-                }];
             }
                 break;
                 
@@ -113,8 +114,7 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
             default:
                 break;
         }
-
-        [[NYSTKConfig defaultConfig] clearDefaultValue];
+        
     } else if (self.indexPath.section == 1) {
         switch (self.indexPath.row) {
             case 0: {
@@ -127,9 +127,9 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                                         emitterType:NYSTKEmitterAnimationTypeColourbar
                                          themeModel:self.tintModel
                              infoButtonClickedBlock:^{
-                    
+
                 } closeButtonClickedBlock:^{
-                    
+
                 }];
             }
                 break;
@@ -205,6 +205,9 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
                 break;
                 
             case 5: {
+                [NYSTKConfig defaultConfig].offsetFromCenter = UIOffsetMake(0, -100);
+                [NYSTKConfig defaultConfig].contentFont = [UIFont italicSystemFontOfSize:17.0f];
+                
                 [NYSTKAlert showImageBarWithMessage:nil
                                   attributedMessage:[self getMessageAttribute:titleString type:NYSTKMessageTypeSuccess]
                                               image:@"custom_icon_image_bar"
@@ -224,9 +227,9 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
             default:
                 break;
         }
-        [[NYSTKConfig defaultConfig] clearDefaultValue];
         
     } else if (self.indexPath.section == 2) {
+        
         NSString *amount = [NSString stringWithFormat:@"%d", 100];
         NSString *str = [NSString stringWithFormat:@"恭喜您^^\n获得%@积分", amount];
         NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str];
@@ -301,9 +304,9 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
             default:
                 break;
         }
-        [[NYSTKConfig defaultConfig] clearDefaultValue];
         
     } else if (self.indexPath.section == 3) {
+        
         NSString *titleStr = @"温馨提醒";
         NSString *cnStr = @"给个小星星✨\n鼓励一下吧\n";
         NSString *enStr = @"Please click the Star.";
@@ -317,7 +320,9 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
         switch (self.indexPath.row) {
             case 0: {
                 [NYSTKConfig defaultConfig].transformDuration = CGFLOAT_MIN;
+                [NYSTKConfig defaultConfig].backgroundAlphaComponent = CGFLOAT_MIN;
                 [NYSTKConfig defaultConfig].isCloseFeedback = YES;
+                
                 [NYSTKAlert showMessageWithTitle:titleStr
                                          message:[[NSAttributedString alloc] initWithString:enStr]
                                        imageName:@"alert_icon_top"
@@ -392,11 +397,36 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
             default:
                 break;
         }
-        [[NYSTKConfig defaultConfig] clearDefaultValue];
         
     } else if (self.indexPath.section == 4) {
+        
         switch (self.indexPath.row) {
+                
             case 0: {
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+                NSDate *date = [NSDate dateWithTimeIntervalSinceNow:1000];
+                NSString *timeString = [formatter stringFromDate:date];
+
+                NSString *string = [@"有效期:" stringByAppendingString:timeString];
+                NSMutableAttributedString *attribut = [[NSMutableAttributedString alloc] initWithString:string];
+                [attribut setAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} range:NSMakeRange(0, string.length)];
+                [attribut addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12]} range:NSMakeRange(0, string.length)];
+
+                [NYSTKAlert showAlertWithTitle:@"优惠劵"
+                                       message:attribut
+                                        onView:self.view
+                                   emitterType:NYSTKEmitterAnimationTypeNone
+                                    themeModel:self.tintModel
+                        infoButtonClickedBlock:^{
+                    
+                } closeButtonClickedBlock:^{
+                    
+                }];
+            }
+                break;
+                
+            case 1: {
                 NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:loremString];
                 [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor grayColor]} range:[loremString rangeOfString:loremString]];
                 
@@ -413,7 +443,7 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
             }
                 break;
                 
-            case 1: {
+            case 2: {
                 NSString *string = @"￥21000.00/月\n";
                 NSMutableAttributedString *attribut = [[NSMutableAttributedString alloc] initWithString:string];
                 NSRange range = [string rangeOfString:@"/"];
@@ -440,17 +470,12 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
             }
                 break;
                 
-            case 2: {
-                
-            }
-                break;
-                
             default:
                 break;
         }
-        [[NYSTKConfig defaultConfig] clearDefaultValue];
         
     } else if (self.indexPath.section == 5) {
+        
         switch (self.indexPath.row) {
             case 0: {
                 [NYSTKAlert showCustomView:self.contentView
@@ -462,10 +487,13 @@ static NSString *loremString = @"Lorem ipsum dolor sit amet, 🤖consectetur adi
             default:
                 break;
         }
-        [[NYSTKConfig defaultConfig] clearDefaultValue];
          
     } else {
         [NYSTKAlert showToastWithMessage:@"Undefined Object !" image:@"logo" themeModel:self.tintModel];
+        
+        [NYSTKAlert dismissWithDelay:DelayTime completion:^{
+            
+        }];
     }
 }
 

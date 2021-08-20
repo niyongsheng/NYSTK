@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (NYSTK)
+
 @property (nonatomic, assign) void(^block)(NSInteger tag);
 
 - (void)addTapGestureRecognizerWithDelegate:(id)tapGestureDelegate Block:(void(^)(NSInteger tag))block;

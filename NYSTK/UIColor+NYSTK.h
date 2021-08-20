@@ -11,7 +11,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIColor (NYSTK)
+
 + (instancetype)nystk_colorWithHexString:(NSString *)hexStr;
+
 @end
 
 NS_ASSUME_NONNULL_END

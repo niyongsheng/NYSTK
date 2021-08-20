@@ -4,7 +4,7 @@
 //
 //  Created by 倪永胜 on 2020/9/3.
 //  Copyright © 2020 倪永胜. All rights reserved.
-//  Version:1.1.0
+//  Version:1.0.0
 
 #import <UIKit/UIKit.h>
 #import "NYSTKEmitterUtil.h"
@@ -31,7 +31,7 @@ typedef NS_ENUM(NSUInteger, NYSTKComeInDirection) {
 
 typedef NS_ENUM(NSUInteger, NYSTKColorfulToastType) {
     NYSTKColorfulToastTypeGreenBook,     // 绿色书本
-    NYSTKColorfulToastTypePurpleFlower,  // 粉色花朵
+    NYSTKColorfulToastTypePurpleFlower,  // 紫色花朵
     NYSTKColorfulToastTypeBlueHand,      // 蓝色手指
     NYSTKColorfulToastTypeBlueFlower,    // 蓝色花朵
     NYSTKColorfulToastTypeYellowCat,     // 黄色小猫
@@ -42,7 +42,7 @@ typedef NS_ENUM(NSUInteger, NYSTKColorfulToastType) {
 typedef NS_ENUM(NSUInteger, NYSTKMessageType) {
     NYSTKMessageTypeDefault,    // 默认
     NYSTKMessageTypeSuccess,    // 成功
-    NYSTKMessageTypeError,       // 错误
+    NYSTKMessageTypeError,      // 错误
     NYSTKMessageTypeWarning     // 警告
 };
 
@@ -55,24 +55,24 @@ typedef void (^NYSTKAlertDismissCompletion)(void);
 
 /// Toast弹框
 /// @param message 内容信息
-+ (void)showToastWithMessage:(NSString * _Nonnull)message;
++ (void)showToastWithMessage:(NSString *)message;
 
 /// Toast弹框
 /// @param message 内容信息
 /// @param theme 主题
-+ (void)showToastWithMessage:(NSString * _Nonnull)message themeModel:(NYSTKThemeModel)theme;
++ (void)showToastWithMessage:(NSString *)message themeModel:(NYSTKThemeModel)theme;
 
 /// Toast弹框
 /// @param message 内容信息
 /// @param imageName 自定义图片名
 /// @param theme 主题
-+ (void)showToastWithMessage:(NSString * _Nonnull)message image:(NSString * _Nonnull)imageName themeModel:(NYSTKThemeModel)theme;
++ (void)showToastWithMessage:(NSString *)message image:(NSString *)imageName themeModel:(NYSTKThemeModel)theme;
 
 /// Toas成功/失败/警告弹框
 /// @param message 内容信息
 /// @param messageType 默认/成功/失败/警告
 /// @param theme 主题
-+ (void)showToastWithMessage:(NSString * _Nonnull)message messageType:(NYSTKMessageType)messageType themeModel:(NYSTKThemeModel)theme;
++ (void)showToastWithMessage:(NSString *)message messageType:(NYSTKMessageType)messageType themeModel:(NYSTKThemeModel)theme;
 
 /// Toast动画弹框
 /// @param message 内容信息
@@ -89,7 +89,7 @@ typedef void (^NYSTKAlertDismissCompletion)(void);
 /// @param theme 主题
 + (void)showToastWithMessage:(NSString *)message
                animationType:(NYSTKAnimationType)animationType
-                        view:(UIView * _Nonnull)view
+                        view:(UIView *)view
                   themeModel:(NYSTKThemeModel)theme;
 
 /// Toast弹框
@@ -103,7 +103,7 @@ typedef void (^NYSTKAlertDismissCompletion)(void);
                        image:(NSString *)imageName
                  messageType:(NYSTKMessageType)messageType
                animationType:(NYSTKAnimationType)animationType
-                        view:(UIView * _Nonnull)view
+                        view:(UIView *)view
                   themeModel:(NYSTKThemeModel)theme;
 
 
@@ -295,17 +295,25 @@ closeButtonClickedBlock:(void(^)(void))closeButtonClickedBlock;
                 onView:(UIView *)view
            emitterType:(NYSTKEmitterAnimationType)emitter;
 
+#pragma mark - 关闭弹框
 
-
-/// clear default
-+ (void)clearDefaultValue;
-
+/// 关闭弹框
 + (void)dismiss;
 
+/// 关闭弹框
+/// @param completion 关闭后回调
 + (void)dismissWithCompletion:(nullable NYSTKAlertDismissCompletion)completion;
 
+/// 关闭弹框
+/// @param delay 延时
 + (void)dismissWithDelay:(NSTimeInterval)delay;
 
+/// 关闭弹框
+/// @param delay 延时
+/// @param completion 关闭后回调
 + (void)dismissWithDelay:(NSTimeInterval)delay completion:(nullable NYSTKAlertDismissCompletion)completion;
+
+#pragma mark - 重置默认值
++ (void)clearDefaultValue;
 
 @end

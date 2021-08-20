@@ -30,6 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// Default: UIViewContentModeScaleToFill
 @property(assign, nonatomic) UIViewContentMode bgImageViewContentMode;
 
+/// 背景遮罩透明度
+/// 关闭背景设置成：CGFLOAT_MIN
+/// Default:0.7f
+@property (assign, nonatomic) CGFloat backgroundAlphaComponent;
+
 /// 动画执行时间
 /// 关闭动画设置成：CGFLOAT_MIN
 /// Default:0.25f
